@@ -54,7 +54,7 @@ function checkCollision(rock) {
 
 function createRock(x) {
   const rock = document.createElement('div')
-
+  var textnode = document.createTextNode(rock);
   rock.className = 'rock'
   rock.style.left = `${x}px`
 
@@ -68,8 +68,8 @@ function createRock(x) {
    * it to GAME and move it downwards.
    */
   GAME.appendChild(rock);
-
-  window.requestAnimationFrame(moveRock);
+  document.getElementById("game").appendChild(GAME);
+  //window.requestAnimationFrame(moveRock);
   //gameInterval = setInterval(createRock(x), 1000);
   /**
    * This function moves the rock. (2 pixels at a time
@@ -91,7 +91,6 @@ function createRock(x) {
      * Otherwise, if the rock hasn't reached the bottom of
      * the GAME, we want to move it again.
      */
-
     if (rock.style.top < 400){
            window.requestAnimationFrame(moveRock);
     }else {
@@ -110,10 +109,8 @@ function createRock(x) {
   ROCKS.push(rock)
 
   // Finally, return the rock element you've created
-  return rock
+  //return rock
 }
-
-
 /**
  * End the game by clearing `gameInterval`,
  * removing all ROCKS from the DOM,
@@ -203,5 +200,6 @@ function start() {
   gameInterval = setInterval(function() {
     createRock(Math.floor(Math.random() *  (GAME_WIDTH - 20)))
   }, 1000)
+
 
 }
