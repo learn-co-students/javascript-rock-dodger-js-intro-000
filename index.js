@@ -87,9 +87,6 @@ function createRock(x) {
      if (collide === true) {
        endGame();
      }
-
-
-
     /**
      * Otherwise, if the rock hasn't reached the bottom of
      * the GAME, we want to move it again.
@@ -142,13 +139,17 @@ function moveDodger(e) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
-   document.addEventListener('keydown', function(e) {
+   //document.addEventListener('keydown', function(e) {
      if (e.which === LEFT_ARROW) {
+       e.stopPropagation();
+       e.preventDefault();
        moveDodgerLeft();
      }else if (e.which === RIGHT_ARROW){
+       e.stopPropagation();
+       e.preventDefault();
        moveDodgerRight();
    }
-   })
+   //})
 }
 
 function moveDodgerLeft() {
@@ -159,34 +160,31 @@ function moveDodgerLeft() {
    */
      var leftNumbers = dodger.style.left.replace('px', '')
      var left = parseInt(leftNumbers, 10)
-
      function step(){
-
      if (left > 0) {
         dodger.style.left = `${left - 4}px`
-       //window.requestAnimationFrame(step)
      }
    }
 window.requestAnimationFrame(step)
 }
 
 //
-// function moveDodgerRight() {
-//   // implement me!
-//   /**
-//    * This function should move DODGER to the right
-//    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
-//    */
-//    var leftNumbers = dodger.style.left.replace('px', '')
-//    var left = parseInt(leftNumbers, 10)
-//    function step(){
-//       dodger.style.left = `${left + 4}px`
-//       if (left < 360) {
-//           window.requestAnimationFrame(step)
-//         }
-//       }
-//     window.requestAnimationFrame(step)
-// }
+function moveDodgerRight() {
+  // implement me!
+  /**
+   * This function should move DODGER to the right
+   * (mabye 4 pixels?). Use window.requestAnimationFrame()!
+   */
+   var leftNumbers = dodger.style.left.replace('px', '')
+   var left = parseInt(leftNumbers, 10)
+   function step(){
+      if (left < 360) {
+        dodger.style.left = `${left + 4}px`
+          //window.requestAnimationFrame(step)
+        }
+      }
+    window.requestAnimationFrame(step)
+}
 
 /**
  * @param {string} p The position property
@@ -197,6 +195,7 @@ function positionToInteger(p) {
 }
 
 function start() {
+
   window.addEventListener('keydown', moveDodger)
 
   START.style.display = 'none'
