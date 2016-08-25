@@ -54,21 +54,19 @@ function checkCollision(rock) {
 
 function createRock(x) {
   const rock = document.createElement('div')
-  var textnode = document.createTextNode(rock);
   rock.className = 'rock'
   rock.style.left = `${x}px`
 
   // Hmmm, why would we have used `var` here?
-  var top = 0
+  var thisTop = 0
 
-  rock.style.top = top
+  rock.style.top = thisTop
 
   /**
    * Now that we have a rock, we'll need to append
    * it to GAME and move it downwards.
    */
   GAME.appendChild(rock);
-  document.getElementById("game").appendChild(GAME);
   //window.requestAnimationFrame(moveRock);
   //gameInterval = setInterval(createRock(x), 1000);
   /**
@@ -78,7 +76,7 @@ function createRock(x) {
   function moveRock() {
     // implement me!
     // (use the comments below to guide you!)
-    rock.style.top = `${top += 2}px`
+    rock.style.top = `${thisTop += 2}px`
     /**
      * If a rock collides with the DODGER,
      * we should call endGame()
@@ -91,7 +89,7 @@ function createRock(x) {
      * Otherwise, if the rock hasn't reached the bottom of
      * the GAME, we want to move it again.
      */
-    if (rock.style.top < 400){
+    if (parseInt(rock.style.top) < 400){
            window.requestAnimationFrame(moveRock);
     }else {
       rock.remove();
@@ -107,9 +105,10 @@ function createRock(x) {
   // Add the rock to ROCKS so that we can remove all rocks
   // when there's a collision
   ROCKS.push(rock)
+  console.log(ROCKS.length)
 
   // Finally, return the rock element you've created
-  //return rock
+  return rock
 }
 /**
  * End the game by clearing `gameInterval`,
@@ -119,10 +118,12 @@ function createRock(x) {
  */
 function endGame() {
   clearInterval(gameInterval);
+
   for(var i = 0; i < ROCKS.length; i++){
     ROCKS[i].remove();
   }
   document.removeEventListener('keydown', moveDodger);
+  console.log(ROCKS.length)
   alert("You Lose!");
 
 }
