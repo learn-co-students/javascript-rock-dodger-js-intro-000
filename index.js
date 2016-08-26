@@ -1,6 +1,7 @@
 /**
  * Don't change these constants!
  */
+
 const DODGER = document.getElementById('dodger')
 const GAME = document.getElementById('game')
 const GAME_HEIGHT = 400
@@ -68,6 +69,9 @@ function createRock(x) {
    * it to GAME and move it downwards.
    */
   GAME.appendChild(rock);
+
+  //console.log((GAME.childNodes).length)
+  //console.log(ROCKS.length)
   //window.requestAnimationFrame(moveRock);
   //gameInterval = setInterval(createRock(x), 1000);
   /**
@@ -78,6 +82,7 @@ function createRock(x) {
     // implement me!
     // (use the comments below to guide you!)
     rock.style.top = `${thisTop += 2}px`
+
     /**
      * If a rock collides with the DODGER,
      * we should call endGame()
@@ -91,13 +96,17 @@ function createRock(x) {
      * Otherwise, if the rock hasn't reached the bottom of
      * the GAME, we want to move it again.
      */
+
     if (checkCollision(rock)===true){
       return endGame();
     } else if (parseInt(rock.style.top) < 400){
+
         window.requestAnimationFrame(moveRock);
     }else {
-      rock.remove();
+      'rock'.remove()
+
     }
+
     /**
      * But if the rock *has* reached the bottom of the GAME,
      * we should remove the rock from the DOM
@@ -121,8 +130,9 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
-  console.log("in here")
+
   clearInterval(gameInterval);
+  console.log(gameInterval);
   for(var i = 0; i < ROCKS.length; i++){
     ROCKS[i].remove();
   }
@@ -205,6 +215,4 @@ function start() {
   gameInterval = setInterval(function() {
     createRock(Math.floor(Math.random() *  (GAME_WIDTH - 20)))
   }, 1000)
-
-
 }
