@@ -92,9 +92,9 @@ function createRock(x) {
      * the GAME, we want to move it again.
      */
     if (checkCollision(rock)===true){
-      endGame();
+      return endGame();
     } else if (parseInt(rock.style.top) < 400){
-           window.requestAnimationFrame(moveRock);
+        window.requestAnimationFrame(moveRock);
     }else {
       rock.remove();
     }
@@ -121,12 +121,14 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
+  console.log("in here")
   clearInterval(gameInterval);
   for(var i = 0; i < ROCKS.length; i++){
     ROCKS[i].remove();
   }
   document.removeEventListener('keydown', moveDodger);
   alert("You Lose!");
+
   //alert("play again?")
 }
 
