@@ -60,15 +60,17 @@ function createRock(x) {
   rock.style.left = `${x}px`
 
   // Hmmm, why would we have used `var` here?
-  var thisTop = 0
+  var top = 0
 
-  rock.style.top = thisTop
+  rock.style.top = top
 
   /**
    * Now that we have a rock, we'll need to append
    * it to GAME and move it downwards.
    */
+   console.log(GAME)
   GAME.appendChild(rock);
+  console.log(GAME)
 
   //console.log((GAME.childNodes).length)
   //console.log(ROCKS.length)
@@ -81,17 +83,11 @@ function createRock(x) {
   function moveRock() {
     // implement me!
     // (use the comments below to guide you!)
-    rock.style.top = `${thisTop += 2}px`
-
+    rock.style.top = `${top += 2}px`
     /**
      * If a rock collides with the DODGER,
      * we should call endGame()
      */
-    //  var collide = checkCollision(rock);
-    //  console.log(collide)
-    //  if (collide === true) {
-    //    endGame();
-    //  }
     /**
      * Otherwise, if the rock hasn't reached the bottom of
      * the GAME, we want to move it again.
@@ -99,14 +95,13 @@ function createRock(x) {
 
     if (checkCollision(rock)===true){
       return endGame();
-    } else if (parseInt(rock.style.top) < 400){
-
-        window.requestAnimationFrame(moveRock);
-    }else {
-      'rock'.remove()
-
     }
 
+    if (parseInt(rock.style.top) < 400){
+        window.requestAnimationFrame(moveRock);
+    }else {
+      rock.remove()
+    }
     /**
      * But if the rock *has* reached the bottom of the GAME,
      * we should remove the rock from the DOM
@@ -214,5 +209,5 @@ function start() {
 
   gameInterval = setInterval(function() {
     createRock(Math.floor(Math.random() *  (GAME_WIDTH - 20)))
-  }, 1000)
+  }, 2000)
 }
