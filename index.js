@@ -57,7 +57,8 @@ function createRock(x) {
       window.requestAnimationFrame(moveRock);
     } else {
       ROCKS.shift();
-      GAME.removeChild(rockNode);
+      rockNode.remove();
+      // GAME.removeChild(rockNode);
     }
   }
 
