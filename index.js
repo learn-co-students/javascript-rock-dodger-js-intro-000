@@ -110,7 +110,7 @@ function createRock(x) {
 function endGame() {
 }
 
-function moveDodger(e) {
+function moveDodger(event) {
   // implement me!
   /**
    * This function should call `moveDodgerLeft()`
@@ -119,6 +119,14 @@ function moveDodger(e) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
+   switch(event.which) {
+       case 39: moveDodgerLeft();
+       }
+       break;
+
+       default: return; // exit this handler for other keys
+   }
+   e.preventDefault(); // prevent the default action (scroll / move caret)
 }
 
 function moveDodgerLeft() {
@@ -127,6 +135,12 @@ function moveDodgerLeft() {
    * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+   var leftNumbers = dodger.style.left.replace('px', '')
+   var left = parseInt(leftNumbers, 10)
+   if (left > 0) {
+     dodger.style.left = `${left - 4}px`
+   }
+
 }
 
 function moveDodgerRight() {
@@ -146,7 +160,7 @@ function positionToInteger(p) {
 }
 
 function start() {
-  window.addEventListener('keydown', moveDodger)
+  window.addEventListener('keydown', moveDodger(e))
 
   START.style.display = 'none'
 
@@ -154,3 +168,7 @@ function start() {
     createRock(Math.floor(Math.random() *  (GAME_WIDTH - 20)))
   }, 1000)
 }
+
+$(document).ready(function(){
+  start()
+})
