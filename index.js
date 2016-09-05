@@ -80,7 +80,7 @@ function moveDodger(e) {
 
   if ([LEFT_ARROW, RIGHT_ARROW].indexOf(key) > -1) {
     e.preventDefault()
-    e.stopPropgation()
+    e.stopPropagation()
   }
   if (key === LEFT_ARROW) {
     moveDodgerLeft()
@@ -109,10 +109,6 @@ function moveDodgerRight() {
   })
 }
 
-/**
- * @param {string} p The position property
- * @returns {number} The position as an integer (without 'px')
- */
 function positionToInteger(p) {
   return parseInt(p.split('px')[0]) || 0
 }
