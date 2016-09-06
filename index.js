@@ -53,53 +53,68 @@ function checkCollision(rock) {
 
 function createRock(x) {
   const rock = document.createElement('div')
-
   rock.className = 'rock'
   rock.style.left = `${x}px`
-
   // Hmmm, why would we have used `var` here?
-  var top = 0
-
+  const top = 0 // changed to constants
   rock.style.top = top
-
   /**
    * Now that we have a rock, we'll need to append
    * it to GAME and move it downwards.
    */
-
-
+  $('#game').append(rock);
+  console.log($('.rock').length);
+  ROCKS.push(rock)
+  moveRock();
   /**
    * This function moves the rock. (2 pixels at a time
    * seems like a good pace.)
    */
-  function moveRock() {
+  function moveRock() { // issue here is when I create more than i rock, the why this code works, the second rock
+    // is reading some type of value that is impacting the speed of the movement of the rocks
+    for (var i = 0; i < $('.rock').length; i++) {
+      if ($('.rock')[i].style.top === '380px'){
+        //$('.rock')[i].remove()
+      } else if ($('.rock').length === 2) {
+        var rockValue = $('.rock')[1].style.top.replace('px', '');
+        //console.log(rockValue);
+        var rockNewValue = parseInt(rockValue, 10);
+        $('.rock')[1].style.top = `${rockNewValue + 2}px`;
+      } else {
+        var rockValue = $('.rock')[0].style.top.replace('px', '');
+        //console.log(rockValue);
+        var rockNewValue = parseInt(rockValue, 10);
+        $('.rock')[0].style.top = `${rockNewValue + 2}px`;
+      }
+    }
+    window.requestAnimationFrame(moveRock);
+  }
     // implement me!
     // (use the comments below to guide you!)
     /**
      * If a rock collides with the DODGER,
      * we should call endGame()
      */
+     /**
+      * Otherwise, if the rock hasn't reached the bottom of
+      * the GAME, we want to move it again.
+      */
+     /**
+      * But if the rock *has* reached the bottom of the GAME,
+      * we should remove the rock from the DOM
+      */
 
-    /**
-     * Otherwise, if the rock hasn't reached the bottom of
-     * the GAME, we want to move it again.
-     */
 
-    /**
-     * But if the rock *has* reached the bottom of the GAME,
-     * we should remove the rock from the DOM
-     */
-  }
 
-  // We should kick of the animation of the rock around here
 
+  // We should kick off the animation of the rock around here
   // Add the rock to ROCKS so that we can remove all rocks
   // when there's a collision
-  ROCKS.push(rock)
+
 
   // Finally, return the rock element you've created
-  return rock
 }
+
 
 /**
  * End the game by clearing `gameInterval`,
@@ -108,6 +123,10 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
+  gameInterval = null;
+  //removal all ROCKS from the DOM
+  //removing moveDodger event listener
+  alert('YOU LOSE!')
 }
 
 function moveDodger(event) {
@@ -119,14 +138,15 @@ function moveDodger(event) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
-   switch(event.which) {
-       case 39: moveDodgerLeft();
-       }
-       break;
 
+   switch(event.which) {
+       case 37: moveDodgerLeft();
+       break;
+       case 39: moveDodgerRight();
+       break;
        default: return; // exit this handler for other keys
    }
-   e.preventDefault(); // prevent the default action (scroll / move caret)
+
 }
 
 function moveDodgerLeft() {
@@ -135,10 +155,12 @@ function moveDodgerLeft() {
    * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
-   var leftNumbers = dodger.style.left.replace('px', '')
-   var left = parseInt(leftNumbers, 10)
+   var leftNumbers = DODGER.style.left.replace('px', '');
+   var left = parseInt(leftNumbers, 10);
+   DODGER.style.left = `${left - 4}px`;
    if (left > 0) {
-     dodger.style.left = `${left - 4}px`
+     window.requestAnimationFrame(moveDodgerLeft);
+     console.log(left + ' left button')
    }
 
 }
@@ -149,6 +171,14 @@ function moveDodgerRight() {
    * This function should move DODGER to the right
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+   var leftNumbers = DODGER.style.left.replace('px', '');
+   var left = parseInt(leftNumbers, 10);
+   DODGER.style.left = `${left + 4}px`;
+   if (left < 360) {
+     window.requestAnimationFrame(moveDodgerRight);
+     console.log(left + ' right button')
+   }
+
 }
 
 /**
@@ -160,15 +190,22 @@ function positionToInteger(p) {
 }
 
 function start() {
-  window.addEventListener('keydown', moveDodger(e))
+  $(window).keydown(function(e){
+    moveDodger(e);
+  })
 
   START.style.display = 'none'
+  //createRock(Math.floor(Math.random() *  (GAME_WIDTH - 20)))
 
+  //createRock(Math.floor(Math.random() *  (GAME_WIDTH - 20)))
+
+  /*
   gameInterval = setInterval(function() {
     createRock(Math.floor(Math.random() *  (GAME_WIDTH - 20)))
   }, 1000)
+  */
 }
 
-$(document).ready(function(){
-  start()
-})
+
+
+  //createRock(Math.floor(Math.random() *  (GAME_WIDTH - 20)))
