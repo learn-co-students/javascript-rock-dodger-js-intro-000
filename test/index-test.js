@@ -102,7 +102,7 @@ describe('Rock Dodger', () => {
 
         window.checkCollision.restore()
       })
-
+    //
       it('removes the rock once it falls of the screen', done => {
         window.requestAnimationFrame = cb => {
           setInterval(cb, 0)
@@ -120,7 +120,7 @@ describe('Rock Dodger', () => {
       })
     })
   })
-
+  //
   describe('endGame()', () => {
     it('clears gameInterval', () => {
       const spy = expect.spyOn(window, 'clearInterval')
@@ -313,6 +313,6 @@ describe('Rock Dodger', () => {
       moveDodgerRight()
 
       expect(dodger.style.left).toEqual('360px')
-    })
+   })
   })
 })
