@@ -58,6 +58,7 @@ describe('Rock Dodger', () => {
 
     beforeEach(() => {
       window.requestAnimationFrame = expect.createSpy()
+
       rock = createRock(2)
     })
 
@@ -99,14 +100,13 @@ describe('Rock Dodger', () => {
 
         const rock = createRock(2)
         const spy = expect.spyOn(rock, 'remove')
-        const stub = expect.spyOn(window, 'offScreen').andReturn(true);
 
         // Janky setTimeout to let the rock fall
         // off the screen
         setTimeout(() => {
           expect(spy).toHaveBeenCalled()
           done()
-        }, 50)
+        }, 300)
       })
     })
   })
