@@ -95,16 +95,12 @@ function createRock(x) {
 
   function animateRock() {
     var rockAnimation = window.requestAnimationFrame(animateRock);
-    //console.log(rockAnimation);
-    /**
-     * If a rock collides with the DODGER,
-     * we should call endGame()
-     */
+
     if (checkCollision(rock)) endGame();
 
     moveRock();
 
-    if (offScreen()) return removeRock(rockAnimation);
+    if (offScreen()) removeRock(rockAnimation);
 
     function moveRock() {
       top += 2;
@@ -112,9 +108,10 @@ function createRock(x) {
     }
     function offScreen() { return top > GAME_HEIGHT }
     function removeRock(rockAnimation) {
-      console.log(`removing ${rockAnimation}`);
-      cancelAnimationFrame(rockAnimation);
+      //console.log(`removing ${rockAnimation}`);
       rock.remove();
+      window.cancelAnimationFrame(rockAnimation);
+      //cancelAnimationFrame(rockAnimation);
     }
   }
 
@@ -173,7 +170,7 @@ function moveDodgerLeft() {
     }
   }
 
-  console.log(window.requestAnimationFrame(step));
+  window.requestAnimationFrame(step);
 }
 
 function moveDodgerRight() {

@@ -88,11 +88,11 @@ describe('Rock Dodger', () => {
       })
 
       it('ends the game if there is a collision', () => {
-        const spy = expect.spyOn(window, 'endGame')
+        const spy = expect.spyOn(window, 'endGame');
         const stub = expect.spyOn(window, 'checkCollision').andReturn(true)
 
         window.requestAnimationFrame = cb => {
-          cb()
+          return setTimeout(cb, 0);
         }
 
         createRock(182)
@@ -104,7 +104,7 @@ describe('Rock Dodger', () => {
 
       it('removes the rock once it falls of the screen', done => {
         window.requestAnimationFrame = cb => {
-          setInterval(cb, 0)
+          return setTimeout(cb, 0);
         }
 
         const rock = createRock(2)
@@ -115,7 +115,7 @@ describe('Rock Dodger', () => {
         setTimeout(() => {
           expect(spy).toHaveBeenCalled()
           done()
-        }, 50)
+        }, 280)
       })
     })
   })
