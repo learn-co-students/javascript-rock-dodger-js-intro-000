@@ -106,12 +106,9 @@ function createRock(x) {
       top += 2;
       rock.style.top = `${top}px`;
     }
-    function offScreen() { return top > GAME_HEIGHT }
     function removeRock(rockAnimation) {
-      //console.log(`removing ${rockAnimation}`);
       rock.remove();
       window.cancelAnimationFrame(rockAnimation);
-      //cancelAnimationFrame(rockAnimation);
     }
   }
 
@@ -121,6 +118,7 @@ function createRock(x) {
 
   return rock;
 }
+function offScreen() { return top > GAME_HEIGHT }
 
 /**
  * End the game by clearing `gameInterval`,

@@ -71,16 +71,7 @@ describe('Rock Dodger', () => {
 
     describe('moveRock()', () => {
       it('checks for a collision', () => {
-        let called = false
-
         const spy = expect.spyOn(window, 'checkCollision')
-
-        window.requestAnimationFrame = cb => {
-          if (!called) {
-            called = true
-            cb()
-          }
-        }
 
         createRock(4)
 
@@ -88,12 +79,8 @@ describe('Rock Dodger', () => {
       })
 
       it('ends the game if there is a collision', () => {
-        const spy = expect.spyOn(window, 'endGame');
+        const spy = expect.spyOn(window, 'endGame')
         const stub = expect.spyOn(window, 'checkCollision').andReturn(true)
-
-        window.requestAnimationFrame = cb => {
-          return setTimeout(cb, 0);
-        }
 
         createRock(182)
 
@@ -106,16 +93,20 @@ describe('Rock Dodger', () => {
         window.requestAnimationFrame = cb => {
           return setTimeout(cb, 0);
         }
+        window.cancelAnimationFrame = id => {
+          return clearTimeout(id);
+        }
 
         const rock = createRock(2)
         const spy = expect.spyOn(rock, 'remove')
+        const stub = expect.spyOn(window, 'offScreen').andReturn(true);
 
         // Janky setTimeout to let the rock fall
         // off the screen
         setTimeout(() => {
           expect(spy).toHaveBeenCalled()
           done()
-        }, 280)
+        }, 50)
       })
     })
   })
