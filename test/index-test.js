@@ -92,10 +92,6 @@ describe('Rock Dodger', () => {
         const spy = expect.spyOn(window, 'endGame')
         const stub = expect.spyOn(window, 'checkCollision').andReturn(true)
 
-        window.requestAnimationFrame = cb => {
-          cb()
-        }
-
         createRock(182)
 
         expect(spy).toHaveBeenCalled()
