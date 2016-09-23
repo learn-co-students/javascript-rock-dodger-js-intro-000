@@ -58,7 +58,6 @@ describe('Rock Dodger', () => {
 
     beforeEach(() => {
       window.requestAnimationFrame = expect.createSpy()
-
       rock = createRock(2)
     })
 
