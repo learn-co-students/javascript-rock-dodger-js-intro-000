@@ -129,7 +129,7 @@ function endGame() {
   //ERROR 'undefined method each for nil nilclass nomethoderror'
   says that the method .remove() can't be used on array element
    - alert(ROCKS[i]) returns [object HTMLdivElement]*/
-  window.removeEventListener('keydown', moveDodger)
+  document.removeEventListener('keydown', moveDodger)
   alert('YOU LOSE!')
 }
 function moveDodger(e) {
