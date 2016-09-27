@@ -150,6 +150,7 @@ describe('Rock Dodger', () => {
     })
 
     it('removes the "keydown" event listener', () => {
+      console.log('removes the "keydown" event listener')
       const spy = expect.spyOn(document, 'removeEventListener')
 
       endGame()
@@ -165,6 +166,7 @@ describe('Rock Dodger', () => {
 
     describe('e.which !== LEFT_ARROW && e.which !== RIGHT_ARROW', () => {
       it('does nothing', () => {
+        console.log("it does nothing")
         const e = {
           preventDefault: expect.createSpy(),
           stopPropagation: expect.createSpy(),
