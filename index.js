@@ -92,7 +92,7 @@ function endGame() {
 
   document.removeEventListener('keydown', moveDodger); // remove the moveDodger event listener
 
-  alert( 'YOU LOSE!' );   // alert "YOU LOSE!"  to the player
+  return alert( 'YOU LOSE!' );   // alert "YOU LOSE!"  to the players
 }
 
 // move DODGER left/right if left/right arrow is pressed
@@ -138,7 +138,7 @@ function positionToInteger(p) {
 function start() {
 
   // listen for keydown and moveDodger accordingly
-  window.addEventListener('keydown', moveDodger);
+  document.addEventListener('keydown', moveDodger);
 
   // hide 'start'
   START.style.display = 'none';
