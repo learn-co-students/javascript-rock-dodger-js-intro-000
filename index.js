@@ -59,7 +59,7 @@ function createRock(x) {
 
      // if rock collides with DODGER call endGame()
      if ( checkCollision( rock ) === true ) {
-       endGame();
+       return endGame();
      }
 
      // if rock is not at the bottom then move rock
@@ -92,7 +92,7 @@ function endGame() {
 
   document.removeEventListener('keydown', moveDodger); // remove the moveDodger event listener
 
-  return alert( 'YOU LOSE!' );   // alert "YOU LOSE!"  to the players
+  alert( 'YOU LOSE!' );   // alert "YOU LOSE!"  to the players
 }
 
 // move DODGER left/right if left/right arrow is pressed
