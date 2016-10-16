@@ -17,21 +17,21 @@ function checkCollision(rock) {
   // rocks are 20px high
   // DODGER is 20px high
   // GAME_HEIGHT - 20 - 20 = 360px;
-  if (top < 360) {
-    const rockBottom = positionToInteger(rock.style.top) + 20;
-    const dodgerTop = positionToInteger(DODGER.style.bottom) + 20;
+  if (top > 360) {
     const dodgerLeftEdge = positionToInteger(DODGER.style.left)
     const dodgerRightEdge = positionToInteger(DODGER.style.left) + 40;
     const rockLeftEdge = positionToInteger(rock.style.left)
     const rockRightEdge = positionToInteger(rock.style.left) + 20;
-    if (rockBottom >= 360) {
-      //console.log('there is no collision');
-      console.log(rockBottom);
-
-      return false;
-    } else {
+    if(
+      (rockLeftEdge <= dodgerLeftEdge && rockRightEdge >= dodgerLeftEdge) ||
+      (rockLeftEdge >= dodgerLeftEdge && rockRightEdge <= dodgerRightEdge) ||
+      (rockLeftEdge <= dodgerRightEdge && rockRightEdge >= dodgerRightEdge)
+      ) {
       console.log('collision');
       return true;
+    } else {
+      console.log('there is no');
+      return false;
     }
   }
 }
@@ -43,7 +43,8 @@ function createRock(x) {
   rock.style.left = `${x}px`; // random places the rock depending on the x variable passed in
   const top = 0;
   rock.style.top = '0px'; // places the rock at the top
-  $('#game').append(rock); // appends rock to the game
+  $('#game').append(rock); // appends rock to the game, this uses jquery method;
+  //document.getElementById('game').appendChild(rock);
   ROCKS.push(); // adds rock to ROCKS array
 //  console.log(rock.id);
   moveRock(rock.id);
@@ -62,7 +63,7 @@ function moveRock(value) {
           document.getElementById(rockId).style.top = `${rockNewValue}px`;
           window.requestAnimationFrame(run);
           if (checkCollision(document.getElementById(rockId))) {
-          endGame();
+            endGame();
           return;
           }
         }
@@ -87,16 +88,10 @@ function moveRock(value) {
 
 
 
-/**
- * End the game by clearing `gameInterval`,
- * removing all ROCKS from the DOM,
- * and removing the `moveDodger` event listener.
- * Finally, alert "YOU LOSE!" to the player.
- */
 function endGame() {
   gameInterval = null;
   //removal all ROCKS from the DOM
-  $('.rock').remove()
+  $('.rock').remove();
   //removing moveDodger event listener
   window.removeEventListener('keydown', moveDodger)
   alert('YOU LOSE!')
@@ -105,9 +100,15 @@ function endGame() {
 function moveDodger(event) {
 
      switch(event.which) {
-       case 37: moveDodgerLeft();
+       case 37:
+       event.preventDefault();
+       event.stopPropagation();
+       moveDodgerLeft();
        break;
-       case 39: moveDodgerRight();
+       case 39:
+       event.preventDefault();
+       event.stopPropagation();
+       moveDodgerRight();
        break;
        default: return; // exit this handler for other keys
    }
@@ -115,45 +116,27 @@ function moveDodger(event) {
 }
 
 function moveDodgerLeft() {
-  // implement me!
-  /**
-   * This function should move DODGER to the left
-   * (mabye 4 pixels?). Use window.requestAnimationFrame()!
-   */
-
-
   var leftOriginalNumber = parseInt(DODGER.style.left.replace('px', ''));
-  if (leftOriginalNumber > 0 ) {
-   var leftNewNumber = leftOriginalNumber - 4;
-   DODGER.style.left = `${leftNewNumber}px`;
-   }
-
-
-  // This window.requestAnimationFrame continues the animation
-
-  /**
-  if (leftOriginalNumber > 4 ) {
-     window.requestAnimationFrame(moveDodgerLeft);
-     console.log("left " + DODGER.style.left);
-   }**/
+  function run(){
+    if (leftOriginalNumber > 0 ) {
+      var leftNewNumber = leftOriginalNumber -= 4;
+      DODGER.style.left = `${leftNewNumber}px`;
+      window.requestAnimationFrame(run);
+    }
+  }
+  window.requestAnimationFrame(run);
  }
 
 function moveDodgerRight() {
-  // implement me!
-  /**
-   * This function should move DODGER to the right
-   * (mabye 4 pixels?). Use window.requestAnimationFrame()!
-   */
    var rightOriginalNumber = parseInt(DODGER.style.left.replace('px', ''));
-   if (rightOriginalNumber <360 )
-   var rightNewNumber = rightOriginalNumber + 4;
-   DODGER.style.left = `${rightNewNumber}px`;
-
-   /**
-     if (rightOriginalNumber < 356 ) {
-     window.requestAnimationFrame(moveDodgerRight);
-     console.log("right " + DODGER.style.left);
-   }**/
+   function run(){
+     if (rightOriginalNumber <360 ) {
+      var rightNewNumber = rightOriginalNumber += 4;
+      DODGER.style.left = `${rightNewNumber}px`;
+      window.requestAnimationFrame(run);
+    }
+  }
+  window.requestAnimationFrame(run);
 }
 
 /**
