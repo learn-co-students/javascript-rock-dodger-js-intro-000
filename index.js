@@ -44,7 +44,6 @@ function createRock(x) {
   const top = 0;
   rock.style.top = '0px'; // places the rock at the top
   $('#game').append(rock); // appends rock to the game, this uses jquery method;
-  //document.getElementById('game').appendChild(rock);
   ROCKS.push(); // adds rock to ROCKS array
 //  console.log(rock.id);
   moveRock(rock.id);
@@ -76,18 +75,6 @@ function moveRock(value) {
   window.requestAnimationFrame(run);
 }
 
-
-
-
-    // implement me!
-    // (use the comments below to guide you!)
-    /**
-     * If a rock collides with the DODGER,
-     * we should call endGame()
-     */
-
-
-
 function endGame() {
   gameInterval = null;
   //removal all ROCKS from the DOM
@@ -114,7 +101,24 @@ function moveDodger(event) {
    }
 
 }
+function moveDodgerLeft() {
+  var leftOriginalNumber = parseInt(DODGER.style.left.replace('px', ''));
+    if (leftOriginalNumber > 0 ) {
+      var leftNewNumber = leftOriginalNumber -= 4;
+      DODGER.style.left = `${leftNewNumber}px`;
+    }
+ }
 
+function moveDodgerRight() {
+   var rightOriginalNumber = parseInt(DODGER.style.left.replace('px', ''));
+     if (rightOriginalNumber <360 ) {
+      var rightNewNumber = rightOriginalNumber += 4;
+      DODGER.style.left = `${rightNewNumber}px`;
+    }
+}
+
+
+/** below causes collisions when left and right are called after each other
 function moveDodgerLeft() {
   var leftOriginalNumber = parseInt(DODGER.style.left.replace('px', ''));
   function run(){
@@ -138,7 +142,7 @@ function moveDodgerRight() {
   }
   window.requestAnimationFrame(run);
 }
-
+**/
 /**
  * @param {string} p The position property
  * @returns {number} The position as an integer (without 'px')
