@@ -103,6 +103,7 @@ function createRock(x) {
      */
      if (rock.style.top === "400px") {
        GAME.removeChild('rock')
+       // Why rock.remove() doesn't work ???
      }
      window.requestAnimationFrame(moveRock)
   }
@@ -127,13 +128,18 @@ function endGame() {
  // clear game interval
  clearInterval(gameInterval)
  // remove all rocks
- for (let i = 0; i < ROCKS.length; i++) {
-   ROCKS.pop();
+ for ( let i = 0; i < ROCKS.length; i ++) {
+   ROCKS[i].remove()
  }
+ //while (ROCKS.length > 0) {
+  // return ROCKS.pop();
+ //}
  // remove the "keydown" event listener
- window.removeEventListener('keydown', moveDodger)
+ document.removeEventListener("keydown", moveDodger)
  // alert the user
- window.alert("You lose! Better luck next time")
+ //window.alert("You lose! Better luck next time") or :
+ START.innerHTML = "You lose"
+ START.style.display = '';
 }
 
 function moveDodger(e) {
@@ -146,10 +152,13 @@ function moveDodger(e) {
    * And be sure to use the functions declared below!
    */
    if (e.which === LEFT_ARROW) {
+    e.stopPropagation()
      moveDodgerLeft()
+     return e.preventDefault();
    }
    if ( e.which === RIGHT_ARROW) {
      moveDodgerRight()
+     return e.preventDefault();
    }
 }
 
@@ -162,7 +171,7 @@ function moveDodgerLeft() {
    function stepLeft() {
      var left = dodger.style.left.replace("px", "");
      var leftNumber = parseInt(left, 10);
-     if (leftNumber >= 0) {
+     if (leftNumber >= 2) {
        dodger.style.left = `${leftNumber - 2}px`;
        window.requestAnimationFrame(stepLeft)
      }
@@ -180,7 +189,7 @@ function moveDodgerRight() {
    function stepRight() {
      var right = dodger.style.left.replace("px", "");
      var rightNumber = parseInt(right);
-     if (rightNumber <= (GAME_WIDTH - 40)) {
+     if (rightNumber <= (GAME_WIDTH - 42)) {
       dodger.style.left = `${rightNumber + 2}px`
       window.requestAnimationFrame(stepRight)
      }
