@@ -66,11 +66,11 @@ function createRock(x) {
 
 
   // Hmmm, why would we have used `var` here?
-  var top = 0
+  var top = 0;
 
   rock.style.top = top;
 
-   $('.game').append('rock');
+  document.getElementById('game').appendChild(rock);
 
 
 }
@@ -125,6 +125,8 @@ function endGame() {
 }
 
 function moveDodger(e) {
+   if (e.which === LEFT_ARROW){moveDodgerLeft(); }
+   if (e.which === RIGHT_ARROW){moveDodgerRight();}
   // implement me!
   /**
    * This function should call `moveDodgerLeft()`
@@ -141,14 +143,41 @@ function moveDodgerLeft() {
    * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+
+   var left = parseInt(DODGER.style.left);
+   console.log(left);
+   function step() {
+    DODGER.style.left = `${left -= 4}px`
+
+    if (left >0){
+      window.requestAnimationFrame(step)
+    }
+   }
+
 }
+
+
 
 function moveDodgerRight() {
   // implement me!
   /**
-   * This function should move DODGER to the right
+   * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+
+
+   var right = parseInt(DODGER.style.left);
+   console.log(right);
+
+   function step() {
+    DODGER.style.left = `${left += 4}px`
+
+    if (right < 360){
+      window.requestAnimationFrame(step)
+    }
+   }
+
+
 }
 
 /**
