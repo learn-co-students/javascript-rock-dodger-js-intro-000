@@ -138,7 +138,7 @@ function endGame() {
  document.removeEventListener("keydown", moveDodger)
  // alert the user
  //window.alert("You lose! Better luck next time") or :
- START.innerHTML = "You lose"
+ START.innerHTML = "<p style='position:absolute; left:9%; top: -375px; color: red;'>You lose!</p><img src='http://images.hellogiggles.com/uploads/2015/11/30/o-DAWSONS-CREEK-REUNION-facebook.jpg' width='300' height='300'>"
  START.style.display = '';
 }
 
