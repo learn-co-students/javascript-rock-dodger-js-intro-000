@@ -144,15 +144,12 @@ function moveDodgerLeft() {
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
 
-   var left = parseInt(DODGER.style.left);
-   console.log(left);
-   function step() {
-    DODGER.style.left = `${left -= 4}px`
-
-    if (left >0){
-      window.requestAnimationFrame(step)
+   var leftNumbers = DODGER.style.left.replace('px','')
+    var left = parseInt(leftNumbers,10)
+    if(left > 0){
+    dodger.style.left = `${left-10}px`
     }
-   }
+
 
 }
 
@@ -164,21 +161,18 @@ function moveDodgerRight() {
    * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+  var leftNumbers = dodger.style.left.replace('px','')
+    var left = parseInt(leftNumbers,10)
+    if(left < 360){
+    dodger.style.left = `${left+10}px`
+
+  }
 
 
-   var right = parseInt(DODGER.style.left);
-   console.log(right);
-
-   function step() {
-    DODGER.style.left = `${left += 4}px`
-
-    if (right < 360){
-      window.requestAnimationFrame(step)
-    }
    }
 
 
-}
+
 
 /**
  * @param {string} p The position property
