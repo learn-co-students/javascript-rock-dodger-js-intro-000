@@ -1,7 +1,7 @@
 /**
  * Don't change these constants!
  */
-//adding for submission 
+
  console.log("linked");
 
 const DODGER = document.getElementById('dodger')
