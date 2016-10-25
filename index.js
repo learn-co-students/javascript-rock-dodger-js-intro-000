@@ -46,16 +46,14 @@ function createRock(x) {
   rock.className = 'rock';
   rock.style.left = `${x}px`;
 
-  // Hmmm, why would we have used `var` here?
   var top = 0;
-
   rock.style.top = top;
 
   /**
    * Now that we have a rock, we'll need to append
    * it to GAME and move it downwards.
    */
-   document.getElementById("game").appendChild( rock );
+   document.getElementById("game").appendChild(rock);
 
   /**
    * This function moves the rock. (2 pixels at a time
@@ -70,7 +68,7 @@ function createRock(x) {
      * we should call endGame()
      */
      if (checkCollision(rock) === true) {
-       endGame();
+       return endGame();
      }
 
     /**
@@ -80,14 +78,12 @@ function createRock(x) {
      if (top < 380) {
        window.requestAnimationFrame(moveRock);
      } else {
+       /**
+        * But if the rock *has* reached the bottom of the GAME,
+        * we should remove the rock from the DOM
+        */
        rock.remove();
      }
-
-    /**
-     * But if the rock *has* reached the bottom of the GAME,
-     * we should remove the rock from the DOM
-     */
-
   }
 
   // We should kick of the animation of the rock around here
@@ -95,7 +91,6 @@ function createRock(x) {
   // Add the rock to ROCKS so that we can remove all rocks
   // when there's a collision
   ROCKS.push(rock);
-
   // Finally, return the rock element you've created
   return rock;
 }
