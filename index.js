@@ -70,12 +70,13 @@ function createRock(x) {
 function endGame() {
  // document.location.reload(true);
  console.log("ended");
+ document.removeEventListener('keydown', moveDodger)
  dodger.style.left = '180px'
  clearInterval(gameInterval)
  ROCKS.forEach(function(rock){rock.remove()})
  START.innerHTML = "Try Again"
  START.style.display = 'inline'
- window.removeEventListener('keydown', moveDodger)
+
 }
 
 function moveDodger(e) {
