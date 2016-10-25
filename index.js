@@ -15,114 +15,60 @@ const START = document.getElementById('start')
 
 var gameInterval = null
 
-/**
- * Be aware of what's above this line,
- * but all of your work should happen below.
- */
-
 function createRock(x) {
   const rock = document.createElement('div');
-
   rock.className = 'rock'
   rock.style.left = `${x}px`
-
-  // Hmmm, why would we have used `var` here?
   var top = 0;
   rock.style.top = top;
+  // append rock to GAME
   document.getElementById('game').appendChild(rock);
 
   function moveRock() {
-    // var topNumbers = rock.style.top.replace('px','')
-    // var top = parseInt(topNumbers, 2)
-    // rock.style.top = `${top+20}px`
-    // console.log('movin')
-    var top = 0
-
-    if(checkCollision){endgame()}
-
-    function step(){
+      // move rock down the screen two pixels
       rock.style.top = `${top += 2}px`
-
+      // recursive function?
       if (top < GAME_HEIGHT){
-        window.requestAnimationFrame(step)
+        window.requestAnimationFrame(moveRock)
+      }else{
+        if (top > GAME_HEIGHT){
+          rock.remove();
+        }
       }
-    }
-
-    window.requestAnimationFrame(step)
+      // check for collision and end the game if true
+      if(checkCollision(rock)){endGame()}
 
 
   }
 
-   function checkCollision() {
-  // implement me!
-  // use the comments below to guide you!
-  const top = positionToInteger(rock.style.top)
-  //rock isnt defined yet
-
-  // rocks are 20px high
-  // DODGER is 20px high
-  // GAME_HEIGHT - 20 - 20 = 360px;
-  if (top > 360) {
-    const dodgerLeftEdge = positionToInteger(DODGER.style.left);
-
-    // FIXME: The DODGER is 40 pixels wide -- how do we get the right edge?
-    const dodgerRightEdge = positionToInteger(DODGER.style.left) + 39;
-
-    const rockLeftEdge = positionToInteger(rock.style.left)
-
-    // FIXME: The rock is 20 pixel's wide -- how do we get the right edge?
-    const rockRightEdge = positionToInteger(rock.style.left)+19;
-
-    var leftHit = rockLeftEdge < dodgerLeftEdge && rockRightEdge > dodgerLeftEdge
-    var midHit = rockLeftEdge > dodgerLeftEdge && rockRightEdge < dodgerRightEdge
-    var rightHit = rockLeftEdge < dodgerRightEdge && rockRightEdge > dodgerRightEdge
-
-    return (leftHit || midHit || rightHit)
-    }
-  }
-
-    // implement me!
-    // (use the comments below to guide you!)
-    /**
-     * If a rock collides with the DODGER,
-     * we should call endGame()
-     */
-
-
-
-
-
-    /**
-     * Otherwise, if the rock hasn't reached the bottom of
-     * the GAME, we want to move it again.
-     */
-
-
-    /**
-     * But if the rock *has* reached the bottom of the GAME,
-     * we should remove the rock from the DOM
-     */
   moveRock()
 
   ROCKS.push(rock)
 
 }
 
+   function checkCollision(rock) {
+  // check where rock is on screen
+  const top = positionToInteger(rock.style.top)
+  // check if coordinates of objects overlap
+  if (top > 360) {
+    const dodgerLeftEdge = positionToInteger(DODGER.style.left);
+    const dodgerRightEdge = positionToInteger(DODGER.style.left) + 39;
+    const rockLeftEdge = positionToInteger(rock.style.left)
+    const rockRightEdge = positionToInteger(rock.style.left)+19;
 
+    var leftHit = rockLeftEdge <= dodgerLeftEdge && rockRightEdge >= dodgerLeftEdge
+    var midHit = rockLeftEdge >= dodgerLeftEdge && rockRightEdge <= dodgerRightEdge
+    var rightHit = rockLeftEdge <= dodgerRightEdge && rockRightEdge >= dodgerRightEdge
 
-
-  /**
-   * Now that we have a rock, we'll need to append
-   * it to GAME and move it downwards.
-   */
-
-  /**
-   * Now that we have a rock, we'll need to append
-   * it to GAME and move it downwards.
-   */
+    return(leftHit || midHit || rightHit);
+    }
+  }
 
 function endGame() {
-
+ // document.location.reload(true);
+ clearInterval(null);
+ console.log("ended")
 }
 
 function moveDodger(e) {
