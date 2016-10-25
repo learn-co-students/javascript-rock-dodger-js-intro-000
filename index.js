@@ -38,6 +38,8 @@ function createRock(x) {
     // console.log('movin')
     var top = 0
 
+    if(checkCollision){endgame()}
+
     function step(){
       rock.style.top = `${top += 2}px`
 
@@ -47,7 +49,6 @@ function createRock(x) {
     }
 
     window.requestAnimationFrame(step)
-    window.requestAnimationFrame(checkCollision)
 
 
   }
@@ -121,6 +122,7 @@ function createRock(x) {
    */
 
 function endGame() {
+
 }
 
 function moveDodger(e) {
