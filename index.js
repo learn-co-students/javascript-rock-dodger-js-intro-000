@@ -65,7 +65,7 @@ function createRock(x) {
   // Hmmm, why would we have used `var` here?
   var top = 0
 
-  top = rock.style.top
+  rock.style.top = top
 
   /**
    * Now that we have a rock, we'll need to append
@@ -85,7 +85,7 @@ GAME.appendChild(rock)
      * If a rock collides with the DODGER,
      * we should call endGame()
      */
-     
+
 
     /**
      * Otherwise, if the rock hasn't reached the bottom of
