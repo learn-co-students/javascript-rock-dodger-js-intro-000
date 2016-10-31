@@ -109,9 +109,10 @@ function createRock(x) {
      * But if the rock *has* reached the bottom of the GAME,
      * we should remove the rock from the DOM
      */
-     if (top > 400) {
-       //document.getElementById('game').removeChild(rock);
-       $('.rock').remove();
+     if (top < 400) {
+       //document.getElementsByClassName('rock')
+       document.rock.remove();
+
      }
   }
   window.requestAnimationFrame(moveRock);
@@ -133,6 +134,10 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
+  clearInterval(gameInterval);
+  ROCKS=[];
+  document.removeEventListener("keydown", moveDodger())
+  alert("YOU LOSE!");
 }
 
 function moveDodger(e) {
