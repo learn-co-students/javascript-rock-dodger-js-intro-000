@@ -83,7 +83,7 @@ function createRock(x) {
 
     top= `${top += 2}px`
 
-    if (top < 360) {
+    if (top < GAME_HEIGHT) {
       window.requestAnimationFrame(moveRock)
     }
     // implement me!
@@ -94,7 +94,7 @@ function createRock(x) {
      */
 
      if (checkCollision(rock)) {
-       endGame();
+      return endGame();
      }
 
     /**
@@ -109,9 +109,9 @@ function createRock(x) {
      * But if the rock *has* reached the bottom of the GAME,
      * we should remove the rock from the DOM
      */
-     if (top < 400) {
+     else {
        //document.getElementsByClassName('rock')
-       document.rock.remove();
+       rock.remove();
 
      }
   }
@@ -135,8 +135,11 @@ function createRock(x) {
  */
 function endGame() {
   clearInterval(gameInterval);
-  ROCKS=[];
-  document.removeEventListener("keydown", moveDodger())
+  ROCKS.forEach(function(rock) {
+    rock.remove();
+  })
+
+  document.removeEventListener("keydown", moveDodger);
   alert("YOU LOSE!");
 }
 
@@ -149,6 +152,19 @@ function moveDodger(e) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
+
+ if (e.which === LEFT_ARROW) {
+moveDodgerLeft();
+e.preventDefault();
+e.stopPropagation();
+    }
+
+if (e.which === RIGHT_ARROW) {
+moveDodgerRight();
+e.preventDefault();
+e.stopPropagation();
+    }
+
 }
 
 function moveDodgerLeft() {
@@ -157,6 +173,15 @@ function moveDodgerLeft() {
    * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+   var leftNumbers = dodger.style.left.replace('px', '')
+   var left = parseInt(leftNumbers, 10)
+
+   if (left > 0) {
+     dodger.style.left = `${left - 4}px`
+     window.requestAnimationFrame(moveDodgerLeft)
+   }
+
+
 }
 
 function moveDodgerRight() {
@@ -165,6 +190,14 @@ function moveDodgerRight() {
    * This function should move DODGER to the right
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+   var leftNumbers = dodger.style.left.replace('px', '')
+   var left = parseInt(leftNumbers, 10)
+
+   if (left < 360) {
+     dodger.style.left = `${left + 4}px`
+     window.requestAnimationFrame(moveDodgerRight)
+   }
+
 }
 
 /**
