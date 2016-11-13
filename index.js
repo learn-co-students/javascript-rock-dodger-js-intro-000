@@ -101,7 +101,7 @@ function createRock(x) {
   }
 
   // We should kick of the animation of the rock around here
-  window.cancelAnimationFrame(id);
+
   // Add the rock to ROCKS so that we can remove all rocks
   // when there's a collision
   ROCKS.push(rock)
@@ -117,6 +117,11 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
+  clearInterval(gameInterval);
+  for (var i = 0; i < ROCKS.length; i++) {
+    ROCKS[i].remove();
+  }
+  document.removeEventListener('keydown', moveDodger);
 }
 
 function moveDodger(e) {
@@ -128,6 +133,16 @@ function moveDodger(e) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
+   if (e.which === LEFT_ARROW) {
+     e.preventDefault();
+     e.stopPropagation();
+     moveDodgerLeft();
+   }
+   if (e.which === RIGHT_ARROW) {
+     e.preventDefault();
+     e.stopPropagation();
+     moveDodgerRight();
+   }
 }
 
 function moveDodgerLeft() {
@@ -136,6 +151,19 @@ function moveDodgerLeft() {
    * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+   var move = 0;
+
+   function step() {
+     move = parseInt(DODGER.style.left.replace('px', ''));
+
+     if(move > 0 && move - 4 > 0) {
+       DODGER.style.left = `${move -4}px`;
+       window.requestAnimationFrame(moveDodgerLeft);
+     }
+   };
+
+   window.requestAnimationFrame(step);
+
 }
 
 function moveDodgerRight() {
@@ -144,6 +172,18 @@ function moveDodgerRight() {
    * This function should move DODGER to the right
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+   var move = 0;
+
+   function step() {
+     move = parseInt(DODGER.style.left.replace('px', ''));
+
+     if(move < 360 && move + 4 < 360) {
+       DODGER.style.left = `${move +4}px`;
+       window.requestAnimationFrame(moveDodgerRight);
+     }
+   };
+
+   window.requestAnimationFrame(step);
 }
 
 /**
