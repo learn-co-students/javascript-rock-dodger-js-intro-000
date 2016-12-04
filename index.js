@@ -9,9 +9,8 @@ const LEFT_ARROW = 37 // use e.which!
 const RIGHT_ARROW = 39 // use e.which!
 const ROCKS = []
 const START = document.getElementById('start')
-
+var gameOn = true;
 var gameInterval = null;
-
 /**
  * Be aware of what's above this line,
  * but all of your work should happen below.
@@ -19,7 +18,7 @@ var gameInterval = null;
 
 function checkCollision(rock) {
 
-  const top = positionToInteger(rock.style.top)
+  const top = positionToInteger(rock.style.top);
 
   if (top > 360) {
     const dodgerLeftEdge = positionToInteger(DODGER.style.left);
@@ -41,38 +40,36 @@ function createRock(x) {
   rock.className = 'rock';
   rock.style.left = `${x}px`;
   var top = 0;
-  rock.style.top = top;
+  rock.style.top = 0;
 
   GAME.appendChild(rock);
 
   function moveRock() {
-     if(checkCollision(rock)){
-       //GAME.removeChild(rock);
-       //ROCKS.shift();
-       endGame();
-       console.log(ROCKS);
-       return;
-     }
-     rock.style.top = `${top += 2}px`;
-     if(top < GAME_HEIGHT-20){
-       if(rock.parentNode === GAME){
+    if(gameOn){
+      rock.style.top = `${top += 2}px`;
+      if(checkCollision(rock)){
+        return endGame();
+      }
+      if(top < GAME_HEIGHT){
+        //console.log("I am recurring");
         window.requestAnimationFrame(moveRock);
-       }
-     }
-     else{
-       rock.remove();
-       //GAME.removeChild(rock);
-       ROCKS.shift();
-     }
+      }else {
+        rock.remove();
+      }
+    } else {
+      console.log("the game has ended and moveRock was called.");
+    }
+    //endGame();
   }
-
   // We should kick of the animation of the rock around here
+  //window.requestAnimationFrame(moveRock);
   window.requestAnimationFrame(moveRock);
   // Add the rock to ROCKS so that we can remove all rocks
   // when there's a collision
   ROCKS.push(rock);
+  //rock.remove();
   // Finally, return the rock element you've created
-  return rock
+  return rock;
 }
 
 /**
@@ -82,23 +79,24 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
+  gameOn = false;
   clearInterval(gameInterval);
-  while(ROCKS.length > 0){
-    var thisRock = ROCKS.shift();
-    thisRock.remove();
-    //GAME.removeChild(thisRock);
-  }
-  window.removeEventListener('keydown', moveDodger);
-  alert("YOU LOSE!");
-  return;
+  ROCKS.forEach( function(rock){ rock.remove()});
+  document.removeEventListener('keydown', moveDodger);
+  return alert("YOU LOSE!");
 }
 
 function moveDodger(e) {
-  if (e.which === LEFT_ARROW) {
-    window.requestAnimationFrame(moveDodgerLeft);
+  const code = e.which;
+  if([LEFT_ARROW, RIGHT_ARROW].indexOf(code) > -1){
+    e.preventDefault();
+    e.stopPropagation();
   }
-  else if (e.which === RIGHT_ARROW){
-    window.requestAnimationFrame(moveDodgerRight);
+  if (code === LEFT_ARROW) {
+    moveDodgerLeft();
+  }
+  else if (code === RIGHT_ARROW){
+    moveDodgerRight();
   }
 }
 
@@ -131,7 +129,7 @@ function positionToInteger(p) {
 }
 
 function start() {
-  window.addEventListener('keydown', moveDodger)
+  document.addEventListener('keydown', moveDodger)
 
   START.style.display = 'none'
 
