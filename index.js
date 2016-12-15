@@ -37,9 +37,9 @@ function checkCollision(rock) {
     const rockRightEdge = rockLeftEdge + 20;
 
     if (
-          (rockLeftEdge < dodgerLeftEdge && rockRightEdge > dodgerLeftEdge) ||
-          (rockLeftEdge > dodgerLeftEdge && rockRightEdge < dodgerRightEdge) ||
-          (rockLeftEdge < dodgerRightEdge && rockRightEdge > dodgerRightEdge)
+          (rockLeftEdge <= dodgerLeftEdge && rockRightEdge >= dodgerLeftEdge) ||
+          (rockLeftEdge >= dodgerLeftEdge && rockRightEdge <= dodgerRightEdge) ||
+          (rockLeftEdge <= dodgerRightEdge && rockRightEdge >= dodgerRightEdge)
                /**
                * Think about it -- what's happening here?
                * There's been a collision if one of three things is true:
@@ -66,7 +66,7 @@ function createRock(x) {
   // Hmmm, why would we have used `var` here?
   var top = 0;
 
-  rock.style.top = top;
+  rock.style.top = "0px";
 
   /**
    * Now that we have a rock, we'll need to append
@@ -153,6 +153,13 @@ function moveDodger(e) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
+
+    if ([LEFT_ARROW, RIGHT_ARROW].indexOf(code) > -1) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+
    if (code === LEFT_ARROW) {
     moveDodgerLeft();
    } else if (code === RIGHT_ARROW) {
