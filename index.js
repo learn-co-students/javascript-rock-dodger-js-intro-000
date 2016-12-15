@@ -154,11 +154,10 @@ function moveDodger(e) {
    * And be sure to use the functions declared below!
    */
 
-    // if ([LEFT_ARROW, RIGHT_ARROW].indexOf(code) > -1) {
+    if ([LEFT_ARROW, RIGHT_ARROW].indexOf(code) > -1) {
       e.preventDefault();
       e.stopPropagation();
-    // }
-
+    }
 
    if (code === LEFT_ARROW) {
     moveDodgerLeft();
@@ -175,8 +174,9 @@ function moveDodgerLeft() {
    */
    window.requestAnimationFrame(function() {
       var leftSide = positionToInteger(DODGER.style.left);
+      console.log('leftSide: %s', leftSide);
       if (leftSide > 0) {
-        DODGER.style.left = `$(leftSide - 4)px`;
+        DODGER.style.left = (leftSide - 4) + 'px';
       }
    });
 }
@@ -190,7 +190,7 @@ function moveDodgerRight() {
     window.requestAnimationFrame(function() {
       var leftSide = positionToInteger(DODGER.style.left);
       if (leftSide < 360) {
-        DODGER.style.left = `$(leftSide + 4)px`;
+        DODGER.style.left = (leftSide + 4) + 'px';
       }
    });
 }
