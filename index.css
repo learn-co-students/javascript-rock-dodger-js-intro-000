@@ -6,7 +6,7 @@
 }
 
 #game {
-  background-color: #111;
+  background-color: black;
   height: 400px;
   margin: 0 auto;
   overflow: hidden;
@@ -16,7 +16,7 @@
 }
 
 #start {
-  color: white;
+  color: yellow;
   font-size: 4rem;
   position: relative;
   text-decoration: none;
