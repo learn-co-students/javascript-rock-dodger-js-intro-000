@@ -33,6 +33,9 @@ var gameInterval = null
      (rockLeftEdge >= dodgerLeftEdge && rockRightEdge <= dodgerRightEdge)) {
     return true
    }
+   else {
+     false
+   }
  }
  }
 
@@ -80,10 +83,9 @@ window.requestAnimationFrame(moveRock)
  */
 function endGame() {
  clearInterval(gameInterval)
- ROCKS.length = 0
+ROCKS.forEach(function(rock) { rock.remove() });
  document.removeEventListener('keydown', moveDodger)
  alert('YOU LOSE!')
- start()
 }
 
 function moveDodger(e) {
