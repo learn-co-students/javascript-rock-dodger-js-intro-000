@@ -105,7 +105,7 @@ describe('Rock Dodger', () => {
 
       it('removes the rock once it falls of the screen', done => {
         window.requestAnimationFrame = cb => {
-          setInterval(cb, 0)
+          setTimeout(cb, 0)
         }
 
         const rock = createRock(2)
@@ -116,7 +116,7 @@ describe('Rock Dodger', () => {
         setTimeout(() => {
           expect(spy).toHaveBeenCalled()
           done()
-        }, 50)
+        }, 500)
       })
     })
   })
