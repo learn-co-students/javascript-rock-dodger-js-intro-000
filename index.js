@@ -101,8 +101,7 @@ var top = positionToInteger(rock.style.top)
      */
      else if (top < 400) {
      rock.style.top = `${top += 2}px`
-     window.requestAnimationFrame(moveRock)
-     }
+          }
     /**
      * But if the rock *has* reached the bottom of the GAME,
      * we should remove the rock from the DOM
@@ -179,10 +178,10 @@ window.requestAnimationFrame(moveDodgerRight)
    */
 }
 
-/**
- * @param {string} p The position property
- * @returns {number} The position as an integer (without 'px')
- */
+
+ // @param {string} p The position property
+ // @returns {number} The position as an integer (without 'px')
+
 function positionToInteger(p) {
   return parseInt(p.split('px')[0]) || 0
 }
