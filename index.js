@@ -63,7 +63,7 @@ function createRock(x) {
   const rock = document.createElement('div')
 
   rock.className = 'rock'
-
+  rock.style.left = `${x}px`;
 
   // Hmmm, why would we have used `var` here?
   var top = 0
@@ -74,8 +74,8 @@ function createRock(x) {
    * Now that we have a rock, we'll need to append
    * it to GAME and move it downwards.
    */
+
    GAME.appendChild(rock);
-   rock.style.left = `${x}px`;
    moveRock()
    }
 
@@ -137,7 +137,7 @@ function moveDodger(e) {
   if (e.which === LEFT_ARROW) {
 moveDodgerLeft()
 }
-else if (e.which===RIGHT_ARROW){
+else if (e.which === RIGHT_ARROW){
 moveDodgerRight()
 }
   // implement me!
