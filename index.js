@@ -107,7 +107,7 @@ var top = positionToInteger(rock.style.top)
      * we should remove the rock from the DOM
      */
      else if (top >=400) {
-     GAME.removeChild(document.querySelector('div.rock'))
+     GAME.removeChild(rock)
      }
 
   // We should kick of the animation of the rock around here
@@ -128,11 +128,10 @@ window.requestAnimationFrame(moveRock);
  */
 function endGame() {
   clearInterval(gameInterval);
-  var rocks = GAME.getElementsByClassName("rock");
-while (rocks.firstChild) {
-  GAME.removeChild(rocks.firstChild);
-}
-  ROCKS.splice(0);
+  ROCKS.forEach((element) => {
+    GAME.removeChild(element)
+  });
+ROCKS.splice(0);
 window.removeEventListener('keydown', moveDodger);
 alert("YOU LOSE!");
 }
