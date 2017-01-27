@@ -93,8 +93,7 @@ function createRock(x) {
      * we should call endGame()
      */
      if (checkCollision(rock)){
-    window.cancelAnimationFrame(moveRock)
-     endGame()
+       endGame()
      }
     /**
      * Otherwise, if the rock hasn't reached the bottom of
@@ -109,8 +108,7 @@ function createRock(x) {
      */
      else if (top >=400) {
        rock.remove ();
-  	  window.cancelAnimationFrame(moveRock)
-     }
+  	   }
    }
 
   // We should kick of the animation of the rock around here
