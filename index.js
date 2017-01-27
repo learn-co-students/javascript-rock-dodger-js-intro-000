@@ -68,7 +68,7 @@ function createRock(x) {
   // Hmmm, why would we have used `var` here?
   var top = 0
 
-  rock.style.top = `${top}px`
+  rock.style.top = `${0}px`
 
   /**
    * Now that we have a rock, we'll need to append
@@ -76,16 +76,16 @@ function createRock(x) {
    */
 
    GAME.appendChild(rock);
-   moveRock()
-   }
+
 
   /**
    * This function moves the rock. (2 pixels at a time
    * seems like a good pace.)
    */
+
   function moveRock() {
-    const rock = document.querySelector('div.rock')
-var top = positionToInteger(rock.style.top)
+    rock.style.top = `${top += 2}px`
+
     // implement me!
     // (use the comments below to guide you!)
     /**
@@ -93,22 +93,25 @@ var top = positionToInteger(rock.style.top)
      * we should call endGame()
      */
      if (checkCollision(rock)){
+    window.cancelAnimationFrame(moveRock)
      endGame()
      }
     /**
      * Otherwise, if the rock hasn't reached the bottom of
      * the GAME, we want to move it again.
      */
-     else if (top < 400) {
-     rock.style.top = `${top += 2}px`
+   if (top < 400) {
+    window.requestAnimationFrame(moveRock);
           }
     /**
      * But if the rock *has* reached the bottom of the GAME,
      * we should remove the rock from the DOM
      */
      else if (top >=400) {
-     GAME.removeChild(rock)
+       rock.remove ();
+  	  window.cancelAnimationFrame(moveRock)
      }
+   }
 
   // We should kick of the animation of the rock around here
 window.requestAnimationFrame(moveRock);
@@ -119,7 +122,6 @@ window.requestAnimationFrame(moveRock);
   // Finally, return the rock element you've created
   return rock
 }
-
 /**
  * End the game by clearing `gameInterval`,
  * removing all ROCKS from the DOM,
@@ -129,9 +131,8 @@ window.requestAnimationFrame(moveRock);
 function endGame() {
   clearInterval(gameInterval);
   ROCKS.forEach((element) => {
-    GAME.removeChild(element)
+    element.remove()
   });
-ROCKS.splice(0);
 window.removeEventListener('keydown', moveDodger);
 alert("YOU LOSE!");
 }
