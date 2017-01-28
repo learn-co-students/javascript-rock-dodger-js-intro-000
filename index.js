@@ -131,16 +131,22 @@ function endGame() {
   ROCKS.forEach((element) => {
     element.remove()
   });
-window.removeEventListener('keydown', moveDodger);
+document.removeEventListener('keydown',moveDodger);
 alert("YOU LOSE!");
 }
 
 function moveDodger(e) {
   if (e.which === LEFT_ARROW) {
 moveDodgerLeft()
+window.requestAnimationFrame(moveDodgerLeft)
+e.preventDefault()
+e.stopPropagation()
 }
 else if (e.which === RIGHT_ARROW){
 moveDodgerRight()
+window.requestAnimationFrame(moveDodgerRight)
+e.preventDefault()
+e.stopPropagation()
 }
   // implement me!
   /**
@@ -168,9 +174,9 @@ window.requestAnimationFrame(moveDodgerLeft)
 
 function moveDodgerRight() {
   var p = DODGER.style.left
-var right = (positionToInteger(p)+40)
-if (right<360) {
-  DODGER.style.left = `${right += 4}px`
+var left = (positionToInteger(p)+40)
+if (left < 360) {
+  DODGER.style.left = `${left += 4}px`
 window.requestAnimationFrame(moveDodgerRight)
 }
   // implement me!
