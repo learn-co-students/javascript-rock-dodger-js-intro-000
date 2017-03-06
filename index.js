@@ -76,8 +76,9 @@ function createRock(x) {
 window.requestAnimationFrame(moveRock)
         }
     if (checkCollision(rock) === true) {
-        endGame()
-        //window.requestAnimationFrame(moveRock)
+        return endGame()
+        /*After passing the tests I went back and checked the repositories. My original code resulted in endless
+        alerts when endGame() ran. Turns out it was because I called the function but didn't return the function.*/
       }
       if (rockTop > 0 && rockTop < 400) {
         rock.style.top = `${rockTop + 2}px`
@@ -254,12 +255,16 @@ function moveDodgerLeft() {
    */
    var leftNumbers = dodger.style.left.replace('px', '')
    var left = parseInt(leftNumbers, 10)
-
+   function moveLeft() {
    if (left > 0) {
        dodger.style.left = `${left - 4}px`
-       window.requestAnimationFrame(moveDodgerLeft)
   }
 }
+window.requestAnimationFrame(moveLeft)
+}
+/*After passing the tests, I went back to the dodger and checked the repositories. My dodger originally moved all the way
+left or right, not 4px at a time. This was because I called the requestAnimationFrame on the function instead of on
+a nested function.*/
 
 function moveDodgerRight() {
   // implement me!
@@ -269,12 +274,13 @@ function moveDodgerRight() {
    */
      var leftNumbers = dodger.style.left.replace('px', '')
      var left = parseInt(leftNumbers, 10)
-
+     function moveRight() {
          if (left < 360) {
            dodger.style.left = `${left + 4}px`
-           window.requestAnimationFrame(moveDodgerRight)
          }
        }
+       window.requestAnimationFrame(moveRight)
+      }
 
 /**
  * @param {string} p The position property
