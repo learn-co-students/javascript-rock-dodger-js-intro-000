@@ -87,11 +87,8 @@ window.requestAnimationFrame(moveRock)
       if (rockTop === 400) {
         //rock.remove()
         GAME.removeChild(rock)
-      //  window.requestAnimationFrame(moveRock)
       }
     }
-    //var rockInterval = setInterval(moveRock, 500);
-//rock.addEventListener("load", moveRock());
 window.requestAnimationFrame(moveRock)
 ROCKS.push(rock)
 return rock
@@ -146,78 +143,6 @@ function endGame() {
   for (let i = 0; i < list.length; i++) {
     list[i].remove();
   };
-
-  /*var list = document.querySelectorAll(".rock")[0]
-  list.parentNode.removeChild(list)*/
-
-
-  /*var list = document.querySelectorAll(".rock")
-  for (let i = 0; i < list.length+1; i++) {
-    list[i].remove();
-  }*/
-  /*var rock = document.querySelectorAll("#rock")
-  for (let i = 0; i < rock.length; i++) {
-    rock[i].remove();
-  }*/
-  /*var parent = document.getElementById("game");
-  var child = document.getElementsByClassName("rock");
-  parent.removeChild(child);*/
-
-  /*var rocky = GAME.getElementsByClassName(".rock")
-  for (let i = 0; i < rocky.length; i++) {
-    rock.pop[i]
-  }*/
-
-
-  /*while (GAME.hasChildNodes) {
-    GAME.removeChild(GAME.firstChild)
-  }*/
-
-  /*var list = document.getElementById("game")
-  while (list.hasChildNodes) {
-    list.removeChild(game.firstChild)};*/
-
-  //document.getElementsByClassName("rock")
-  /*  var rock = document.getElementsByClassName('#rock');
-    for (let i = 0; i < rock.length; i++) {
-      rock.pop[i]
-    }*/
-  /*var rock = document.getElementsByClassName("#rock")
-  GAME.removeChild(rock);*/
-  /*var node = document.getElementById("rock");
-  if (node.parentNode) {
-    node.parentNode.removeChild(node);
-  }*/
-  /*var rock = document.getElementsByClassName("rock")
-  rock.remove();*/
-  /*for (rock in ROCKS) {
-    GAME.remove.rock
-  }*/
-  /*if (node.parentNode) {
-    node.parentNode.removeChild(node)
-  }*/
-  /*while (list.firstChild) {
-    list.removeChild(list.firstChild)
-  }*/
-//document.getElementsByClassName("rock")
-  /*var node = document.getElementsByClassName('.rock');
-  for (let i = 0; i < node.length-1; i--) {
-    //[i].delete
-    var parent = node[i].parentNode;
-    parent.removeChild(node[i]);
-  }*/
-    //ROCKS =[];
-    //GAME.remove.rock;
-    //$('GAME').remove('rock');
-    //ROCKS.length = 0;
-    //document.getElementsByClassName(".rock").remove();
-    //$(".rocks").remove();
-    //for (rock in ROCKS) {
-      //  }
-      //GAME.removeChild.rock;
-      //      return ROCKS*/
-  //    ROCKS[i].remove()
-    //  window.requestAnimationFrame(moveRock)
     document.removeEventListener('keydown', moveDodger);
     alert('YOU LOSE!');
   }
@@ -233,7 +158,7 @@ function moveDodger(e) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
-  //document.addEventListener('keydown', function(e) {
+
   if (e.which === RIGHT_ARROW) {
     moveDodgerRight();
     e.stopPropagation();
@@ -244,7 +169,6 @@ function moveDodger(e) {
     e.stopPropagation();
     e.preventDefault();
   }
-//})
 }
 
 function moveDodgerLeft() {
