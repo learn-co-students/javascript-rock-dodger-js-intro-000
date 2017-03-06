@@ -12,131 +12,137 @@ const START = document.getElementById('start')
 
 var gameInterval = null
 
-/**
- * Be aware of what's above this line,
- * but all of your work should happen below.
- */
-
 function checkCollision(rock) {
-  // implement me!
-  // use the comments below to guide you!
   const top = positionToInteger(rock.style.top)
-
   // rocks are 20px high
   // DODGER is 20px high
   // GAME_HEIGHT - 20 - 20 = 360px;
   if (top > 360) {
     const dodgerLeftEdge = positionToInteger(DODGER.style.left)
-
-    // FIXME: The DODGER is 40 pixels wide -- how do we get the right edge?
-    const dodgerRightEdge = 0;
-
+    const dodgerRightEdge = positionToInteger(DODGER.style.left) + 40;
     const rockLeftEdge = positionToInteger(rock.style.left)
-
-    // FIXME: The rock is 20 pixel's wide -- how do we get the right edge?
-    const rockRightEdge = 0;
-
-    if (false /**
-               * Think about it -- what's happening here?
-               * There's been a collision if one of three things is true:
-               * 1. The rock's left edge is < the DODGER's left edge,
-               *    and the rock's right edge is > the DODGER's left edge;
-               * 2. The rock's left edge is > the DODGER's left edge,
-               *    and the rock's right edge is < the DODGER's right edge;
-               * 3. The rock's left edge is < the DODGER's right edge,
-               *    and the rock's right edge is > the DODGER's right edge
-               */) {
-      return true
+    const rockRightEdge = positionToInteger(rock.style.left) + 20;
+    if(
+      (rockLeftEdge <= dodgerLeftEdge && rockRightEdge >= dodgerLeftEdge) ||
+      (rockLeftEdge >= dodgerLeftEdge && rockRightEdge <= dodgerRightEdge) ||
+      (rockLeftEdge <= dodgerRightEdge && rockRightEdge >= dodgerRightEdge)
+      ) {
+      console.log('collision');
+      return true;
+    } else {
+      console.log('there is no');
+      return false;
     }
   }
 }
 
 function createRock(x) {
-  const rock = document.createElement('div')
-
-  rock.className = 'rock'
-  rock.style.left = `${x}px`
-
-  // Hmmm, why would we have used `var` here?
-  var top = 0
-
-  rock.style.top = top
-
-  /**
-   * Now that we have a rock, we'll need to append
-   * it to GAME and move it downwards.
-   */
-
-
-  /**
-   * This function moves the rock. (2 pixels at a time
-   * seems like a good pace.)
-   */
-  function moveRock() {
-    // implement me!
-    // (use the comments below to guide you!)
-    /**
-     * If a rock collides with the DODGER,
-     * we should call endGame()
-     */
-
-    /**
-     * Otherwise, if the rock hasn't reached the bottom of
-     * the GAME, we want to move it again.
-     */
-
-    /**
-     * But if the rock *has* reached the bottom of the GAME,
-     * we should remove the rock from the DOM
-     */
-  }
-
-  // We should kick of the animation of the rock around here
-
-  // Add the rock to ROCKS so that we can remove all rocks
-  // when there's a collision
-  ROCKS.push(rock)
-
-  // Finally, return the rock element you've created
-  return rock
+  const rock = document.createElement('div'); // assigned element div to const rock
+  rock.className = 'rock'; // give rock a className
+  rock.id = parseInt(Math.random() * 1000000000000000);
+  rock.style.left = `${x}px`; // random places the rock depending on the x variable passed in
+  const top = 0;
+  rock.style.top = '0px'; // places the rock at the top
+  $('#game').append(rock); // appends rock to the game, this uses jquery method;
+  ROCKS.push(); // adds rock to ROCKS array
+//  console.log(rock.id);
+  moveRock(rock.id);
 }
 
-/**
- * End the game by clearing `gameInterval`,
- * removing all ROCKS from the DOM,
- * and removing the `moveDodger` event listener.
- * Finally, alert "YOU LOSE!" to the player.
- */
+
+function moveRock(value) {
+//      console.log(value);
+      var rockId = value;
+      var currentTopValue = parseInt(document.getElementById(rockId).style.top.replace('px', ''));
+//      console.log(currentTopValue);
+      function run() {
+        if (currentTopValue !== 380 ) {
+          console.log(currentTopValue);
+          var rockNewValue = currentTopValue += 2;
+          document.getElementById(rockId).style.top = `${rockNewValue}px`;
+          window.requestAnimationFrame(run);
+          if (checkCollision(document.getElementById(rockId))) {
+            endGame();
+          return;
+          }
+        }
+      else {
+          document.getElementById(rockId).remove();
+          ROCKS.pop();
+          return;
+      }
+    }
+  window.requestAnimationFrame(run);
+}
+
 function endGame() {
+  gameInterval = null;
+  //removal all ROCKS from the DOM
+  $('.rock').remove();
+  //removing moveDodger event listener
+  window.removeEventListener('keydown', moveDodger)
+  alert('YOU LOSE!')
 }
 
-function moveDodger(e) {
-  // implement me!
-  /**
-   * This function should call `moveDodgerLeft()`
-   * if the left arrow is pressed and `moveDodgerRight()`
-   * if the right arrow is pressed. (Check the constants
-   * we've declared for you above.)
-   * And be sure to use the functions declared below!
-   */
-}
+function moveDodger(event) {
 
+     switch(event.which) {
+       case 37:
+       event.preventDefault();
+       event.stopPropagation();
+       moveDodgerLeft();
+       break;
+       case 39:
+       event.preventDefault();
+       event.stopPropagation();
+       moveDodgerRight();
+       break;
+       default: return; // exit this handler for other keys
+   }
+
+}
 function moveDodgerLeft() {
-  // implement me!
-  /**
-   * This function should move DODGER to the left
-   * (mabye 4 pixels?). Use window.requestAnimationFrame()!
-   */
-}
+  var leftOriginalNumber = parseInt(DODGER.style.left.replace('px', ''));
+    if (leftOriginalNumber > 0 ) {
+      var leftNewNumber = leftOriginalNumber -= 4;
+      DODGER.style.left = `${leftNewNumber}px`;
+    }
+ }
 
 function moveDodgerRight() {
-  // implement me!
-  /**
-   * This function should move DODGER to the right
-   * (mabye 4 pixels?). Use window.requestAnimationFrame()!
-   */
+   var rightOriginalNumber = parseInt(DODGER.style.left.replace('px', ''));
+     if (rightOriginalNumber <360 ) {
+      var rightNewNumber = rightOriginalNumber += 4;
+      DODGER.style.left = `${rightNewNumber}px`;
+    }
 }
 
+
+/** below causes collisions when left and right are called after each other
+function moveDodgerLeft() {
+  var leftOriginalNumber = parseInt(DODGER.style.left.replace('px', ''));
+  function run(){
+    if (leftOriginalNumber > 0 ) {
+      var leftNewNumber = leftOriginalNumber -= 4;
+      DODGER.style.left = `${leftNewNumber}px`;
+      window.requestAnimationFrame(run);
+    }
+  }
+  window.requestAnimationFrame(run);
+ }
+
+function moveDodgerRight() {
+   var rightOriginalNumber = parseInt(DODGER.style.left.replace('px', ''));
+   function run(){
+     if (rightOriginalNumber <360 ) {
+      var rightNewNumber = rightOriginalNumber += 4;
+      DODGER.style.left = `${rightNewNumber}px`;
+      window.requestAnimationFrame(run);
+    }
+  }
+  window.requestAnimationFrame(run);
+}
+**/
 /**
  * @param {string} p The position property
  * @returns {number} The position as an integer (without 'px')
