@@ -52,7 +52,7 @@ function sayHello() {
 const myInterval = setInterval(sayHello, 1000)
 ```
 
-The above will print `'hello'` to console once every second.
+The above will print `'hello'` to console once every second. AND WILL NOT STOP!!!
 
 Note that `setInterval()` returns a reference to the interval. We can stop the interval from executing by calling `clearInterval(myInterval)`.
 
