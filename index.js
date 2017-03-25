@@ -36,7 +36,7 @@ function checkCollision(rock) {
     if (
                (rockLeftEdge<=dodgerLeftEdge&&rockRightEdge>=dodgerLeftEdge)||
                (rockLeftEdge>=dodgerLeftEdge&&rockRightEdge<=dodgerRightEdge)||
-               (rockLeftEdge<=dodgerRightEdge&&rockRightEdge>=rockRightEdge)
+               (rockLeftEdge<=dodgerRightEdge&&rockRightEdge>=dodgerRightEdge)
              )
                {
       return true
@@ -61,9 +61,12 @@ function checkCollision(rock) {
              *    and the rock's right edge is > the DODGER's right edge
              */
 function endGame() {
-GAME.classList.remove("rock");
-window.removeEventListener('keydown', moveDodger);
-gameInterval=null;
+
+for (var i = 0, l = ROCKS.length; i < l; i++) {
+  ROCKS[i].remove()
+}
+document.removeEventListener('keydown', moveDodger);
+clearInterval(gameInterval);
 alert ('you lose!')
 }
 
@@ -76,7 +79,7 @@ function createRock(x) {
   // Hmmm, why would we have used `var` here?
   var top = 0
 
-  rock.style.top = '${top}px'
+  rock.style.top = `${top}px`
 
   /**
    * Now that we have a rock, we'll need to append
@@ -89,20 +92,21 @@ GAME.appendChild(rock)
    * seems like a good pace.)
    */
   function moveRock() {
-    function step() {
+  rock.style.top = `${top += 2}px`
+  if (checkCollision(rock))
+  {
+    endGame()
+  }
 
+   if (top >GAME_HEIGHT) {
+     rock.remove();
+   }
 
-   if (top >380) {
-     GAME.removeChild(rock)
-   }
-   if (checkCollision(rock))
-   {
-     endGame()
-   }
-   rock.style.top = `${top += 2}px`
- window.requestAnimationFrame(step)
+   else {
+ window.requestAnimationFrame(moveRock)
+
  }
- window.requestAnimationFrame(step)
+
 }
     // implement me!
     // (use the comments below to guide you!)
@@ -123,7 +127,7 @@ GAME.appendChild(rock)
 
 
 
-  moveRock()
+  window.requestAnimationFrame(moveRock)
   // We should kick of the animation of the rock around here
 
   // Add the rock to ROCKS so that we can remove all rocks
