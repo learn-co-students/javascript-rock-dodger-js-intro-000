@@ -11,7 +11,6 @@ const ROCKS = []
 const START = document.getElementById('start')
 
 var gameInterval = null
-var over = false
 
 /**
  * Be aware of what's above this line,
@@ -88,7 +87,7 @@ function createRock(x) {
      * we should call endGame()
      */
      if (checkCollision(rock)) {
-       if (!over) endGame();
+       endGame();
      }
 
     /**
@@ -132,7 +131,7 @@ function endGame() {
 
   ROCKS.forEach(rock => rock.remove());
   alert('YOU LOSE!');
-  over=true;
+
 }
 
 function moveDodger(e) {
