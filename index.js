@@ -30,7 +30,7 @@ function createRock(x) {
   rock.style.top = top;
   GAME.appendChild(rock);
   function moveRock() {
-    rock.style.top = `${top + 2}px`;
+    rock.style.top = `${top += 2}px`;
     if (checkCollision(rock)){
       return endGame();
     }
@@ -56,34 +56,27 @@ function endGame() {
 }
 
 function moveDodger(e) {
-  $(document).on("keydown", function(e) {
-    var key = e.which
-    if ([LEFT_ARROW, RIGHT_ARROW].indexOf(key) > -1) {
-      e.preventDefault()
-      e.stopPropagation()
-    }
-    if (e.which === LEFT_ARROW) {
-      moveDodgerLeft();
-    } else if (e.which === RIGHT_ARROW) {
-      moveDodgerRight();
-    })
+  if (e.which === LEFT_ARROW) {
+    moveDodgerLeft();
+  } else if (e.which === RIGHT_ARROW) {
+    moveDodgerRight();
   }
 }
 
 function moveDodgerLeft() {
   window.requestAnimationFrame(function(){
-    var position = positionToInteger(DODGER.style.left)
-    if (position < 360) {
-      DODGER.style.left = `${position + 4}px`;
+    var left = positionToInteger(DODGER.style.left)
+    if (left > 0) {
+      DODGER.style.left = `${position - 4}px`;
     }
   })
 }
 
 function moveDodgerRight() {
   window.requestAnimationFrame(function(){
-    var position = positionToInteger(DODGER.style.right)
-    if (position < 360) {
-      DODGER.style.left = `${position + 4}px`;
+    var left = positionToInteger(DODGER.style.right)
+    if (left < 360) {
+      DODGER.style.left = `${left + 4}px`;
     }
   })
 }
