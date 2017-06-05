@@ -1,6 +1,16 @@
+const expect = require('expect')
+const fs = require('fs')
+const jsdom = require('mocha-jsdom')
+const path = require('path')
+
+const html = fs.readFileSync(path.resolve(__dirname, '..', 'index.html'), 'utf-8')
+const src = fs.readFileSync(path.resolve(__dirname, '..', 'index.js'), 'utf-8')
+
 describe('Rock Dodger', () => {
-  afterEach(function() {
-    expect.restoreSpies()
+  jsdom({
+    html,
+    src,
+    useEach: true,
   })
 
   describe('checkCollision(rock)', () => {
@@ -103,21 +113,21 @@ describe('Rock Dodger', () => {
         window.checkCollision.restore()
       })
 
-//       it('removes the rock once it falls of the screen', done => {
-//         window.requestAnimationFrame = cb => {
-//           setInterval(cb, 0)
-//         }
+      it('removes the rock once it falls of the screen', done => {
+        window.requestAnimationFrame = cb => {
+          setInterval(cb, 0)
+        }
 
-//         const rock = createRock(2)
-//         const spy = expect.spyOn(rock, 'remove')
+        const rock = createRock(2)
+        const spy = expect.spyOn(rock, 'remove')
 
-//         // Janky setTimeout to let the rock fall
-//         // off the screen
-//         setTimeout(() => {
-//           expect(spy).toHaveBeenCalled()
-//           done()
-//         }, 50)
-//       })
+        // Janky setTimeout to let the rock fall
+        // off the screen
+        setTimeout(() => {
+          expect(spy).toHaveBeenCalled()
+          done()
+        }, 50)
+      })
     })
   })
 
