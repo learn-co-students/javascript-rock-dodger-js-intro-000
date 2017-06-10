@@ -20,12 +20,14 @@ var gameInterval = null
 function checkCollision(rock) {
   const top = positionToInteger(rock.style.top)
   if (top > 360) {
-    const dodgerLeftEdge = positionToInteger(DODGER.style.left)
+    const dodgerLeftEdge = positionToInteger(DODGER.style.left);
     const dodgerRightEdge = dodgerLeftEdge + 40;
     const rockLeftEdge = positionToInteger(rock.style.left);
     const rockRightEdge = rockLeftEdge + 20;
 
-    if ( (rockLeftEdge < dodgerLeftEdge && rockRightEdge > dodgerLeftEdge) || (rockLeftEdge > dodgerLeftEdge && rockRightEdge < dodgerRightEdge) || (rockLeftEdge < dodgerRightEdge && rockRightEdge > dodgerRightEdge)) {
+    if ((rockLeftEdge <= dodgerLeftEdge && rockRightEdge >= dodgerLeftEdge) ||
+         (rockLeftEdge >= dodgerLeftEdge && rockRightEdge < dodgerRightEdge) ||
+         (rockLeftEdge < dodgerRightEdge && rockRightEdge > dodgerRightEdge)) {
       return true
     }
   }
@@ -36,71 +38,80 @@ function createRock(x) {
 
   rock.className = 'rock'
   rock.style.left = `${x}px`
+
   var top = 0
 
   rock.style.top = top
   GAME.append(rock);
+  moveRock();
 
-
-  function moveRock(r) {
-    var top_m = 0;
-    function step(){
-      r.style.top = `${top_m += 2}px`;
-      if (top_m < GAME_HEIGHT){
-        window.requestAnimationFrame(step);
-      }
-    }
-    if (checkCollision()){
+  function moveRock() {
+    if (checkCollision(rock)){
       endGame();
     } else {
-      window.requestAnimationFrame(step);
+    var top_pos = positionToInteger(rock.style.top);
+    top_pos += 2;
+    rock.style.top = `${top_pos}px`
+    if (top_pos <= GAME_HEIGHT - 22){
+      window.requestAnimationFrame(moveRock);
+    } else {
+      GAME.remove(rock);
     }
   }
+}
 
 
   ROCKS.push(rock)
-  moveRock(rock);
   return rock
 }
 
+
 function endGame() {
-  clearInterval(gameInterval);
-  document.remove(ROCKS); // this doesn't seem right.
-  window.removeEventListener('keydown', moveDoger);
-  alert("YOU LOSE!");
+  window.clearInterval(gameInterval);
+  ROCKS.forEach(function(rock){ // this isn't working properly. Need to look into removing an array of items from the DOM. Could possibly iterate through with a for-loop, but basically the same as this.
+    GAME.remove(rock)
+  });
+  document.body.removeEventListener('keydown', moveDodger); // how do I remove this properly? linked to comment question below about naming functions in event listeners -- to remove them, I have to reference the function name.
+  alert('YOU LOSE!');
 }
 
 function moveDodger(e) {
-  if (e.which === 37){
-   moveDodgerLeft();
-}
- if (e.which === 39) {
-   moveDodgerRight();
-  }
+  document.body.addEventListener('keydown', function(e){  // should this function be explicit? i.e. ('keydown', moveDodgerLeft)? how would we generalize/abstract that i s
+    if (e.which === LEFT_ARROW){
+      e.preventDefault()
+      e.stopPropagation()
+      moveDodgerLeft();
+    } else if (e.which === RIGHT_ARROW) {
+      e.preventDefault()
+      e.stopPropagation()
+      moveDodgerRight();
+    }
+  });
 }
 
+
+
 function moveDodgerLeft() {
-  var dodger = document.getElementById('dodger');
-  var left_margin = positionToInteger(dodger.style.left);
+  var left_pos = positionToInteger(DODGER.style.left);
   function step(){
-    dodger.style.left = `${left_margin - 4}px`;
-    if (left_margin > 4){
-      window.requestAnimationFrame(step);
-    }
+    left_pos -= 4;
+    DODGER.style.left = `${left_pos}px`;
   }
-  window.requestAnimationFrame(step);
+  if (positionToInteger(DODGER.style.left) >= 4){
+    requestAnimationFrame(step);
+  }
 }
 
 function moveDodgerRight() {
-  var dodger = document.getElementById('dodger');
-  var left_margin = positionToInteger(dodger.style.left);
+  var left_pos = positionToInteger(DODGER.style.left);
   function step(){
-      dodger.style.left = `${left_margin + 4}px`;
-      if (left_margin < 356){
-        window.requestAnimationFrame(step);
-      }
+    left_pos += 4;
+    DODGER.style.left = `${left_pos}px`;
   }
-  window.requestAnimationFrame(step);
+
+  if (positionToInteger(DODGER.style.left) <= 356){
+    requestAnimationFrame(step);
+  }
 }
 
 /**
