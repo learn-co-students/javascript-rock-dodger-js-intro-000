@@ -46,7 +46,7 @@ function checkCollision(rock) {
     * 3. The rock's left edge is < the DODGER's right edge,
     *    and the rock's right edge is > the DODGER's right edge
     */
-    if ((rockLeftEdge < dodgerLeftEdge && rockRightEdge > dodgerLeftEdge) || (rockLeftEdge >= dodgerLeftEdge && rockRightEdge <= dodgerRightEdge) || (rockLeftEdge < dodgerRightEdge && rockRightEdge > dodgerRightEdge)){
+    if ((rockLeftEdge <= dodgerLeftEdge && rockRightEdge >= dodgerLeftEdge) || (rockLeftEdge >= dodgerLeftEdge && rockRightEdge <= dodgerRightEdge) || (rockLeftEdge <= dodgerRightEdge && rockRightEdge >= dodgerRightEdge)){
       console.log(rockLeftEdge + " " + rockRightEdge + " " + dodgerLeftEdge + " " + dodgerRightEdge)
       console.log(top)
       return true
@@ -136,12 +136,12 @@ function moveDodger(e) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
-   if(e.which === 37){
+   if(e.which === LEFT_ARROW){
      moveDodgerLeft();
      e.stopPropagation();
      e.preventDefault();
    }
-   else if (e.which === 39){
+   else if (e.which === RIGHT_ARROW){
      moveDodgerRight();
      e.stopPropagation();
      e.preventDefault();
@@ -180,7 +180,7 @@ function positionToInteger(p) {
 }
 
 function start() {
-  window.addEventListener('keydown', moveDodger)
+  document.addEventListener('keydown', moveDodger)
 
   START.style.display = 'none'
 
