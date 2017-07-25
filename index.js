@@ -105,7 +105,7 @@ function createRock(x) {
      */
  const tp = positionToInteger(rock.style.top);
     if(tp>360)
-      document.remove('.rock');
+      rock.remove();
 
 
   }
