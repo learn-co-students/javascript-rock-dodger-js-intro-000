@@ -54,6 +54,7 @@ var gameInterval = null
    }
  }
 
+//CHange one thing
 function createRock(x) {
   const rock = document.createElement('div')
 
