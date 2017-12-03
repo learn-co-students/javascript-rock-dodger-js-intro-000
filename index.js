@@ -24,19 +24,12 @@ function checkCollision(rock) {
     if ((rockLeftEdge < dodgerLeftEdge & rockRightEdge > dodgerLeftEdge ) ||
        (rockLeftEdge >= dodgerLeftEdge & rockRightEdge <= dodgerRightEdge) ||
        (rockLeftEdge < dodgerRightEdge & rockRightEdge > dodgerRightEdge)) {
-         //console.log(`dodger: ${dodgerLeftEdge} - ${dodgerRightEdge}`)
-         //console.log(`rock: ${rockLeftEdge} - ${rockRightEdge}`)
          return true
     }
     else {
       if (top === 400) {
-        //console.log('remove')
-        //console.log(document.querySelector('.rock'))
         document.querySelector('.rock').remove()
-        //console.log(document.querySelector('.rock'))
-        //console.log(ROCKS.length)
         ROCKS.pop()
-        //console.log(ROCKS.length)
         return false
       }
     }
@@ -53,8 +46,6 @@ function createRock(x) {
   var top = 0
 
   rock.style.top = top
-  //console.log('append')
-  //console.log(GAME.appendChild(rock))
   GAME.appendChild(rock)
   moveRock()
   var topNumbers = rock.style.top.replace('px', '')
@@ -81,56 +72,12 @@ function createRock(x) {
 } //function createRock
 
 function endGame() {
-  window.clearInterval(gameInterval)
-  //console.log('new')
-  var cnt = document.querySelectorAll('.rock').length
-  //console.log(cnt)
-  for (var i = 0; i < cnt; i++) {
-    //console.log(document.querySelector('.rock'))
-    document.querySelector('.rock').remove()
-  }
-  var cnt = document.querySelectorAll('.rock').length
-  //console.log(cnt)
-  //console.log(ROCKS.length)
-  //console.log(ROCKS[0])
-  while (ROCKS.length > 0) {
-    var last = ROCKS.length - 1
-    //console.log(ROCKS[last])
-    //var rock = ROCKS[ROCKS.length - 1]
-    //document.querySelector(`'${ROCKS[last]}'`).remove()
-    //document.querySelector(`'${rock}'`).remove()
-    //document.querySelector('.rock').remove()
-    ROCKS.pop()
-  }
-  //console.log(ROCKS.length)
+  clearInterval(gameInterval)
 
-  //spies.push(expect.spyOn(rock, 'remove'))
-/*
-  while (document.querySelector('.rock')) {
-    var el = document.querySelector('.rock')
-    el.remove()
-  }
-*/
-/*
-  var cnt = document.querySelectorAll('.rock').length
-  for (var i = 0; i < cnt; i++) {
-    var el = document.querySelector('.rock')
-    el.remove()
-  }
-*/
-/*
-  while (document.querySelector('.rock')) {
-    document.querySelector('.rock').remove()
-  }
-*/
-/*
-  var cnt = document.querySelectorAll('.rock').length
-  for (var i = 0; i < cnt; i++) {
-    document.querySelector('.rock').remove()
-  }
-*/
+  ROCKS.forEach(function(rock) { rock.remove() })
+
   window.removeEventListener('keydown', moveDodger)
-  alert('YOU LOSE!')
+  return alert('YOU LOSE!')
   //document.location.reload()
 }
 
