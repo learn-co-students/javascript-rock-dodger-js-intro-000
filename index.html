@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <title>Rock Dodger!</title>
     <link rel="stylesheet" type="text/css" href="node_modules/mocha/mocha.css">
     <link rel="stylesheet" type="text/css" href="index.css">
@@ -11,13 +12,17 @@
       <a id="start" href="javascript:start()">START</a>
       <div id="dodger" style="bottom: 0px; left: 180px;"></div>
     </div>
-    <script src="index.js"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="index.js"></script>
     <!-- Open this file and call `mocha.run()` in console to run tests -->
     <div id="mocha"></div>
     <script src="node_modules/mocha/mocha.js"></script>
     <script src="node_modules/expect/umd/expect.min.js"></script>
     <script>mocha.setup('bdd');</script>
     <script src="test/index-test.js"></script>
+
+
+
   </body>
 </html>
