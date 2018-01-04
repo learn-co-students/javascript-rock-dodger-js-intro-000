@@ -116,7 +116,7 @@ function createRock(x) {
  */
 function endGame() {
   clearInterval(gameInterval)
-  alert('You suck.');
+  alert('You lose.');
   removeEventListener('keydown', moveDodger);
   for (i = 0; i < ROCKS.length; i++) {
     ROCKS[i].remove()
