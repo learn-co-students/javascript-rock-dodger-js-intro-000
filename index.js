@@ -62,11 +62,11 @@ function createRock(x) {
 }
 
 function endGame() {
-  clearInterval(gameInterval)
+  window.clearInterval(gameInterval)
 
   ROCKS.forEach(function(rock) { rock.remove()})
 
-  document.removeEventListener('keydown', moveDodger)
+  window.removeEventListener('keydown', moveDodger)
 
   START.innerHTML = 'Play again?'
   START.style.display = 'inline'
@@ -116,7 +116,7 @@ function positionToInteger(p) {
 }
 
 function start() {
-  document.addEventListener('keydown', moveDodger)
+  window.addEventListener('keydown', moveDodger)
 
   START.style.display = 'none'
 
