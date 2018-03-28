@@ -36,11 +36,11 @@ function checkCollision(rock) {
     // FIXME: The rock is 20 pixel's wide -- how do we get the right edge?
     const rockRightEdge = rockLeftEdge + 20;
 
-    if (rockLeftEdge < dodgerLeftEdge && rockRightEdge > dodgerLeftEdge) {
+    if (rockLeftEdge <= dodgerLeftEdge && rockRightEdge >= dodgerLeftEdge) {
         return true
-    } else if (rockLeftEdge > dodgerLeftEdge && rockRightEdge < dodgerRightEdge) {
+    } else if (rockLeftEdge >= dodgerLeftEdge && rockRightEdge <= dodgerRightEdge) {
         return true
-    } else if (rockLeftEdge < dodgerRightEdge && rockRightEdge > dodgerRightEdge) {
+    } else if (rockLeftEdge <= dodgerRightEdge && rockRightEdge >= dodgerRightEdge) {
         return true
     }
         /**
@@ -85,17 +85,20 @@ function createRock(x) {
      * If a rock collides with the DODGER,
      * we should call endGame()
      */
+    rock.style.top = `${top += 2}px`
+
       if (checkCollision(rock)) {
           console.log('checkCollision ran!')
-          endGame();
-          return
+          return endGame();
       }
     /**
      * Otherwise, if the rock hasn't reached the bottom of
      * the GAME, we want to move it again.
      */
-      if (top > 400) {
-          game.removeChild(rock)
+      if (top < GAME_HEIGHT) {
+          window.requestAnimationFrame(moveRock)
+      } else {
+          rock.remove()
       }
 
 
@@ -106,15 +109,8 @@ function createRock(x) {
   }
 
   // We should kick of the animation of the rock around here
-    function step() {
-        rock.style.top = `${top += 2}px`
-        moveRock()
-        if (top < 400) {
-            window.requestAnimationFrame(step)
-        }
-    }
 
-    window.requestAnimationFrame(step)
+    window.requestAnimationFrame(moveRock)
   // Add the rock to ROCKS so that we can remove all rocks
   // when there's a collision
   ROCKS.push(rock)
@@ -131,15 +127,10 @@ function createRock(x) {
  */
 function endGame() {
     console.log('end of game is running!')
-    gameInterval = null
 
-    var rocksToDelete = game.getElementsByClassName('rock')
+    clearInterval(gameInterval)
+    ROCKS.forEach(function(rock) {rock.remove()})
 
-    while(rocksToDelete[0]) {
-        console.log('deleting child')
-        game.removeChild(rocksToDelete[0]);
-        console.log('child deleted')
-    }
 
     window.removeEventListener('keydown', moveDodger)
 
@@ -156,14 +147,18 @@ function moveDodger(e) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
-    document.addEventListener('keydown', function(e) {
-      if (e.which === LEFT_ARROW) {
+    const code = e.which
+
+    if ([LEFT_ARROW, RIGHT_ARROW].indexOf(code) > -1) {
+        e.preventDefault()
+        e.stopPropagation()
+    }
+
+    if (code === LEFT_ARROW) {
         moveDodgerLeft()
-        }
-      if (e.which === RIGHT_ARROW) {
+    } else if (code === RIGHT_ARROW) {
         moveDodgerRight()
-        }
-    })
+    }
 }
 
 function moveDodgerLeft() {
