@@ -21,7 +21,7 @@ function checkCollision(rock) {
 
   const top = positionToInteger(rock.style.top)
 
-//console.log("top in checkCollision is ", top)
+///console.log("top in checkCollision is ", top)
   if (top > 360) {
     const dodgerLeftEdge = positionToInteger(DODGER.style.left)
 
@@ -54,7 +54,7 @@ function createRock(x) {
 
   // Hmmm, why would we have used `var` here? --> AK answer:(?) so that it will be locally scoped
   var top = 0;
-  var testvar
+  //var testvar
 
   var counter = 0; //variable for debugging
 
@@ -72,20 +72,18 @@ function createRock(x) {
    * seems like a good pace.)
    */
   function moveRock() {
-    counter += 1;
+//counter += 1;
     // implement me!
     // (use the comments below to guide you!)
     /**
      * If a rock collides with the DODGER,
      * we should call endGame()
      */
-    //  testvar = `${positionToInteger(rock.style.top) + 2}px`;
+
      rock.style.top = `${positionToInteger(rock.style.top) + 2}px`;
-    //  console.log("conversion check ", testvar)
-    //  console.log("pre 380 check, top is ", positionToInteger(rock.style.top))
-    //  console.log("cc result is ", checkCollision())
+
      if (checkCollision(rock)) {
-// console.log("cc if statement triggered")
+console.log("calling endgame from collision check")
        endGame();
      }
   //   /**
@@ -93,24 +91,21 @@ function createRock(x) {
   //    * the GAME, we want to move it again.
   //    */
      if(positionToInteger(rock.style.top) < 380) { // AK: do we know what rock.style.bottom is? Is 0 the proper lower bound? {changed it, looking at top}
-// console.log("call ", counter)
-// console.log("380 check, top is ", positionToInteger(rock.style.top))
-// if(counter < 50){
+//console.log("the top is --> ", positionToInteger(rock.style.top))
+//console.log(" counter is --> ", counter)
        window.requestAnimationFrame(moveRock);
-// } else {
-//   endGame();
-// }
-     } else {
-        GAME.removeChild(rock)
+     }
+     else {
+//console.log(rock)
+        rock.remove()
      }
     /**
      * But if the rock *has* reached the bottom of the GAME,
      * we should remove the rock from the DOM
      */
-    //  GAME.removeChild(rock)
   }
-  //
-  // // We should kick off the animation of the rock around here
+
+  // We should kick off the animation of the rock around here
 //console.log("1st move rock call")
   window.requestAnimationFrame(moveRock)  // AK: feeling uncertain about this, feeling better once I removed the moveRock call from above and placed it here
   // Add the rock to ROCKS so that we can remove all rocks
@@ -122,14 +117,15 @@ function createRock(x) {
   return rock
 }
 
-// /**
-//  * End the game by clearing `gameInterval`,
-//  * removing all ROCKS from the DOM,
-//  * and removing the `moveDodger` event listener.
-//  * Finally, alert "YOU LOSE!" to the player.
-//  */
+/**
+ * End the game by clearing `gameInterval`,
+ * removing all ROCKS from the DOM,
+ * and removing the `moveDodger` event listener.
+ * Finally, alert "YOU LOSE!" to the player.
+ */
 function endGame() {
   // gameInterval = null;
+console.log("In end game")
   var numRocks = ROCKS.length
 
   clearInterval(gameInterval);
@@ -142,7 +138,7 @@ function endGame() {
 //    ROCKS.pop();
   }
   window.removeEventListener('keydown', moveDodger)
-  // alert("YOU LOSE!");
+  alert("YOU LOSE!");
   console.log("YOU LOSE!");
 }
 
@@ -221,5 +217,6 @@ function start() {
 
   gameInterval = setInterval(function() {
     createRock(Math.floor(Math.random() *  (GAME_WIDTH - 20)))
+  console.log("creating a rock")
   }, 1000)
 }
