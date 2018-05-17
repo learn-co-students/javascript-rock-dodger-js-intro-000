@@ -34,10 +34,9 @@ function createRock(x) {
 
   rock.className = 'rock'
   rock.style.left = `${x}px`
+  rock.style.top = '0px'
 
   // Hmmm, why would we have used `var` here?
-
-  var top = rock.style.top = 0
 
 
   /**
@@ -57,6 +56,7 @@ function createRock(x) {
      * If a rock collides with the DODGER,
      * we should call endGame()
      */
+     var top = positionToInteger(rock.style.top);
      rock.style.top = `${top += 2}px`;
 
      if(checkCollision()) {
