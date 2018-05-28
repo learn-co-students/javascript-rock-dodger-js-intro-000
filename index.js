@@ -122,10 +122,12 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
-   clearInterval(gameInterval);
-   ROCKS.forEach(function(rock) {rock.remove()});
-   document.removeEventListener('keydown', moveDodger);
-   return alert('YOU LOSE!');
+  clearInterval(gameInterval);
+  ROCKS.forEach(function(rock) {rock.remove();});
+  window.removeEventListener('keydown', moveDodger);
+  START.innerHTML = 'Play again?';
+  START.style.display = 'inline';
+  return alert('YOU LOSE!');
 }
 
 function moveDodger(e) {
@@ -137,6 +139,11 @@ function moveDodger(e) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
+
+   if ([LEFT_ARROW, RIGHT_ARROW].indexOf(e.which) > -1) {
+     e.preventDefault()
+     e.stopPropagation()
+   }
    if (e.which === LEFT_ARROW) {moveDodgerLeft();}
    else if (e.which === RIGHT_ARROW) {moveDodgerRight();}
 }
