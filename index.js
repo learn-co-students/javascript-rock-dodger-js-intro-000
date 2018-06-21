@@ -34,7 +34,10 @@ function checkCollision(rock) {
 
 function createRock(x) {
   const rock = document.createElement('div')
+//Rock score update;
   rockScore += 1
+  score.innerHTML = `${rockScore}`
+  score.style.display = 'inline'
   rock.className = 'rock'
   rock.style.left = `${x}px`
   var top = 0
@@ -120,6 +123,7 @@ function positionToInteger(p) {
 }
 
 function start() {
+  //debugger
   window.addEventListener('keydown', moveDodger)
   START.style.display = 'none'
 

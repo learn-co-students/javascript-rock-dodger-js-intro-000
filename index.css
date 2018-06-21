@@ -1,5 +1,5 @@
 #dodger {
-  background-color: white;
+  background-color: Blue;
   height: 20px;
   position: absolute;
   width: 10px;
@@ -21,6 +21,14 @@
   position: relative;
   text-decoration: none;
   top: 4rem;
+}
+
+#score {
+  color: white;
+  font-size: 1rem;
+  position: absolute;;
+  text-decoration: none;
+  top: 1rem;
 }
 
 .rock {
