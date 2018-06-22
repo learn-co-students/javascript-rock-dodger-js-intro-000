@@ -70,36 +70,43 @@ function endGame() {
   //ROCKS = []
   //console.log(ROCKS)
   window.removeEventListener('keydown', moveDodger)
-  START.innerHTML = `Play again?`
+  if (rockScore > 30){
+  START.innerHTML = `Play again? Score: ${rockScore}`
   START.style.display = 'inline'
+}else {
+  START.innerHTML = `Give the game a couple seconds to reset`
+  START.style.display = 'inline'
+}
   gameInterval = null
-  alert(`YOU LOSE! Score: ${rockScore}`)
+  //alert(`YOU LOSE! Score: ${rockScore}`)
   rockScore = 0
   return
 }
 
 function moveDodger(e) {
   document.addEventListener('keydown', function(e) {
+    e.preventDefault()
+    e.stopPropagation()
   if (e.which === 37) {
     moveDodgerLeft()
   }
 })
   document.addEventListener('keydown', function(e) {
+    e.preventDefault()
+    e.stopPropagation()
   if (e.which === 39) {
     moveDodgerRight()
   }
 })
-e.preventDefault()
-e.stopPropagation()
 }
 
 function moveDodgerLeft() {
   //debugger;
   var left = positionToInteger(DODGER.style.left)
   function moveLeft(){
-    DODGER.style.left = `${left - 4}px`
+    DODGER.style.left = `${left - 6}px`
     }
-  if (left > 0) {
+  if (gameInterval !== null && left > 0) {
     window.requestAnimationFrame(moveLeft)
     }
   }
@@ -109,10 +116,10 @@ function moveDodgerLeft() {
 function moveDodgerRight() {
   var left = positionToInteger(DODGER.style.left)
   function moveRight(){
-    DODGER.style.left = `${left + 4}px`
+    DODGER.style.left = `${left + 6}px`
     }
 
-  if (left < 390) {
+  if (gameInterval !== null && left < 390) {
     window.requestAnimationFrame(moveRight)
   }
 }
