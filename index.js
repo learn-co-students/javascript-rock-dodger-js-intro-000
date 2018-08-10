@@ -13,12 +13,6 @@ const START = document.getElementById('start')
 var gameInterval = null
 
 
-
-/**
- * Be aware of what's above this line,
- * but all of your work should happen below.
- */
-
 function checkCollision(rock) {
 
   const top = positionToInteger(rock.style.top)
@@ -28,91 +22,129 @@ function checkCollision(rock) {
     const rockLeftEdge = positionToInteger(rock.style.left)
     const rockRightEdge = rockLeftEdge + 20;
 
-    if (((rockLeftEdge <= dodgerLeftEdge ) && ( rockRightEdge >= dodgerLeftEdge )) ||
-          (( rockLeftEdge > dodgerLeftEdge) && ( rockRightEdge <= dodgerRightEdge)) ||
-              (( rockLeftEdge < dodgerRightEdge ) && ( rockRightEdge > dodgerRightEdge ))
-               ) {
-      return true
+    return (
+      (rockLeftEdge <= dodgerLeftEdge && rockRightEdge >= dodgerLeftEdge) ||
+      (rockLeftEdge >= dodgerLeftEdge && rockRightEdge <= dodgerRightEdge) ||
+      (rockLeftEdge <= dodgerRightEdge && rockRightEdge >= dodgerRightEdge)
+     ) 
     }
   }
-}
+
 
 function createRock(x) {
   const rock = document.createElement('div')
+  
+  
   rock.className = 'rock';
   rock.style.left = `${x}px`
-  var top = 0
-  rock.style.top = top
+  
+  
+  var top = rock.style.top = 0
+  
   GAME.appendChild(rock)
  
-  function moveRock(top) {
-      rock.style.top = `${top += 2}px`
-      if ( top > 360 ) {
-        window.requestAnimationFrame(moveRock)
+  function moveRock() {
+    rock.style.top = `${top += 2}px`;
+      
+    if (checkCollision(rock)) {
+      return endGame()
+    }
+      
+    if (top < GAME_HEIGHT) {
+      window.requestAnimationFrame(moveRock)
+    } else {
+      rock.remove()
     }
   }
-  if ( checkCollision(rock) ) {
-    endGame()
-  }
+  
   window.requestAnimationFrame(moveRock)
+  
   ROCKS.push(rock)
   return rock
 }
 
-/**
- * End the game by clearing `gameInterval`,
- * removing all ROCKS from the DOM,
- * and removing the `moveDodger` event listener.
- * Finally, alert "YOU LOSE!" to the player.
- */
 function endGame() {
-    clearInterval()
-    
-    for (let i = 0; i < ROCKS.length; i++) {
-       ROCKS[i].remove()
-    }
-    
+  clearInterval(gameInterval)
 
-    window.moveDodger=function(){return false;};
-    window.alert = "YOU LOSE!" 
+  ROCKS.forEach(function(rock) { rock.remove() })
+
+  document.removeEventListener('keydown', moveDodger)
+
+  START.innerHTML = 'Play again?'
+  START.style.display = 'inline'
+
+  return alert('YOU LOSE!')
 }
 
 function moveDodger(e) {
- if (e.which === LEFT_ARROW) {
-    moveDodgerLeft()
+  const code = e.which
+  
+  if ([LEFT_ARROW, RIGHT_ARROW].indexOf(code) > -1) {
     e.preventDefault()
     e.stopPropagation()
   }
   
-  if (e.which === RIGHT_ARROW) {
+// if (e.which === LEFT_ARROW) {
+//     moveDodgerLeft()
+//     e.preventDefault()
+//     e.stopPropagation()
+//   }
+  
+  if (code === LEFT_ARROW) {
+    moveDodgerLeft()
+  } else if (code === RIGHT_ARROW) {
     moveDodgerRight()
-    e.preventDefault()
-    e.stopPropagation()
   }
 }
+  
+//   if (e.which === RIGHT_ARROW) {
+//     moveDodgerRight()
+//     e.preventDefault()
+//     e.stopPropagation()
+//   }
+// }
+
 
 function moveDodgerLeft() {
-  var leftNumbers = dodger.style.left.replace('px', '')
-  var left = parseInt(leftNumbers, 10)
-  if (left > 0) {
-    dodger.style.left = `${left - 4}px`
-  }
+  window.requestAnimationFrame(function() {
+    const left = positionToInteger(DODGER.style.left)
+
+    if (left > 0) {
+      DODGER.style.left = `${left - 4}px`;
+    }
+  })
 }
+
+
+// function moveDodgerLeft() {
+//   var leftNumbers = dodger.style.left.replace('px', '')
+//   var left = parseInt(leftNumbers, 10)
+//   if (left > 0) {
+//     dodger.style.left = `${left - 4}px`
+//   }
+// }
    
-
 function moveDodgerRight() {
-        var rightNumbers = dodger.style.left.replace('px', '')
-        var right = parseInt(rightNumbers, 10)
-        if (right < 360 ) {
-    dodger.style.left = `${right + 4}px`
-   }
+  window.requestAnimationFrame(function() {
+    const left = positionToInteger(DODGER.style.left)
+
+    if (left < 360) {
+      DODGER.style.left = `${left + 4}px`;
+    }
+  })
 }
 
 
-/**
- * @param {string} p The position property
- * @returns {number} The position as an integer (without 'px')
- */
+// function moveDodgerRight() {
+//         var rightNumbers = dodger.style.left.replace('px', '')
+//         var right = parseInt(rightNumbers, 10)
+//         if (right < 360 ) {
+//     dodger.style.left = `${right + 4}px`
+//   }
+// }
+
+
+
 function positionToInteger(p) {
   return parseInt(p.split('px')[0]) || 0
 }
