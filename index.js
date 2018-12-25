@@ -20,7 +20,7 @@ var gameInterval = null
 function checkCollision(rock) {
   // implement me!
   // use the comments below to guide you!
-  const top = positionToInteger(rock.style.top)
+  const top = positionToInteger(rock.style.top) //////////////////////////////////////////////
 
   // rocks are 20px high
   // DODGER is 20px high
@@ -46,9 +46,9 @@ function checkCollision(rock) {
                * 3. The rock's left edge is < the DODGER's right edge,
                *    and the rock's right edge is > the DODGER's right edge
                */
-             (rockLeftEdge < dodgerLeftEdge && rockRightEdge > dodgerLeftEdge) ||
+             (rockLeftEdge <= dodgerLeftEdge && rockRightEdge >= dodgerLeftEdge) ||
              (rockLeftEdge >= dodgerLeftEdge && rockRightEdge <= dodgerRightEdge) ||
-             (rockLeftEdge < dodgerRightEdge && rockRightEdge > dodgerRightEdge)
+             (rockLeftEdge <= dodgerRightEdge && rockRightEdge >= dodgerRightEdge)
            ){
       return true
     }else{
@@ -66,9 +66,8 @@ function createRock(x) {
   rock.style.left = `${x}px`
 
   // Hmmm, why would we have used `var` here?
-  var top = 0
 
-  rock.style.top = top
+  var top = rock.style.top = 0
 
   /**
    * Now that we have a rock, we'll need to append
@@ -81,26 +80,30 @@ function createRock(x) {
    * seems like a good pace.)
    */
   function moveRock() {
+    rock.style.top = `${top += 2}px`;
     // implement me!
-    top += 2
     // (use the comments below to guide you!)
     /**
      * If a rock collides with the DODGER,
      * we should call endGame()
      */
-     if (checkCollision()){
-       endGame()
+     if (checkCollision(rock)){
+       return endGame()
      }
     /**
      * Otherwise, if the rock hasn't reached the bottom of
      * the GAME, we want to move it again.
      */
-
+     if (top < GAME_HEIGHT){
+       window.requestAnimationFrame(moveRock)
+     }
     /**
      * But if the rock *has* reached the bottom of the GAME,
      * we should remove the rock from the DOM
      */
-
+     else {
+       rock.remove()
+     }
   }
 
   // We should kick of the animation of the rock around here
@@ -125,6 +128,8 @@ function endGame() {
   for (let i = 0; i < allrocks.length; i++){
     allrocks[i].remove()
   }
+  alert('You got hit!')
+  start()
 }
 
 function moveDodger(e) {
