@@ -54,16 +54,11 @@ function checkCollision(rock) {
 }
 
 function createRock(x) {
-  const rock = document.createElement('div')
-
+  const rock = document.createElement('div');
   rock.className = 'rock'
   rock.style.left = `${x}px`
-
   // Hmmm, why would we have used `var` here?
-  var top = 0
-
-  rock.style.top = top
-
+  var top = rock.style.top = 0;
   /**
    * Now that we have a rock, we'll need to append
    * it to GAME and move it downwards.
@@ -80,34 +75,29 @@ function createRock(x) {
      * If a rock collides with the DODGER,
      * we should call endGame()
      */
-      if (checkCollision()){
+     rock.style.top = `${top += 2}px`;
+     if (checkCollision(rock)){
         endGame();
       }
     /**
      * Otherwise, if the rock hasn't reached the bottom of
      * the GAME, we want to move it again.
      */
-     rock.style.top = `${top += 2}px`
 
-       if (top < 400) {
+       if (top < GAME_HEIGHT) {
          window.requestAnimationFrame(moveRock)
        } else {
          rock.remove();
-       }
-
+       }}
          /**
      * But if the rock *has* reached the bottom of the GAME,
      * we should remove the rock from the DOM
      */
-  }
-
   // We should kick off the animation of the rock around here
   window.requestAnimationFrame(moveRock);
-
   // Add the rock to ROCKS so that we can remove all rocks
   // when there's a collision
   ROCKS.push(rock);
-
   // Finally, return the rock element you've created
   return rock;
 }
@@ -121,7 +111,7 @@ function createRock(x) {
 function endGame() {
 clearInterval(gameInterval);
 ROCKS.forEach(function(rock) {rock.remove()});
-document.removeEventListener('keydown', moveDodger)
+document.removeEventListener('keydown', moveDodger);
 return alert ("YOU LOSE!");
 }
 
@@ -137,15 +127,15 @@ function moveDodger(e) {
    if (e.which === LEFT_ARROW) {
     e.preventDefault();
     e.stopPropagation();
-    moveDodgerLeft()
+    moveDodgerLeft();
   } else if (e.which === RIGHT_ARROW) {
    e.preventDefault();
    e.stopPropagation();
-   moveDodgerRight()
+   moveDodgerRight();
   } else if (e.which !== LEFT_ARROW && e.which !== RIGHT_ARROW) {
 
-    return null
-}
+    return null;
+}}
 
 function moveDodgerLeft() {
   // implement me!
@@ -153,13 +143,13 @@ function moveDodgerLeft() {
    * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
-   dodger.style.left = `${left - 4}px`
-
-     if (left > 0) {
-       window.requestAnimationFrame(step)
-     }
-   window.requestAnimationFrame(step)
- }
+   window.requestAnimationFrame(function() {
+      var left = positionToInteger(DODGER.style.left)
+      if (left > 0) {
+        DODGER.style.left = `${left - 4}px`
+      }
+    })
+  }
 
 function moveDodgerRight() {
   // implement me!
@@ -167,13 +157,13 @@ function moveDodgerRight() {
    * This function should move DODGER to the right
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
-   dodger.style.right = `${right - 4}px`
-
-     if (right > 0) {
-       window.requestAnimationFrame(step)
-     }
-   window.requestAnimationFrame(step)
- }
+   var right = positionToInteger(DODGER.style.left + 40)
+    window.requestAnimationFrame(function() {
+      if (right < 360) {
+        DODGER.style.left = `${right + 4}px`
+      }
+    })
+  }
 
 /**
  * @param {string} p The position property
