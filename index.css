@@ -7,12 +7,12 @@
 
 #game {
   background-color: #111;
-  height: 400px;
+  /* height: 400px; */
   margin: 0 auto;
   overflow: hidden;
   position: relative;
   text-align: center;
-  width: 400px;
+  /* width: 400px; */
 }
 
 #start {
@@ -26,15 +26,16 @@
 .rock {
   width: 20px;
   height: 20px;
-  background: tan;
+  /* background: tan; */
+  background: red;
   position: absolute;
 }
 
-.rock:before {
+/* .rock:before {
   content: "";
-  border-bottom: 6px solid tan;
-  border-left: 6px solid #111;
-  border-right: 6px solid #111;
+  border-bottom: 6px solid red;
+  border-left: 6px solid #0099FF;
+  border-right: 6px solid #0099FF;
   height: 0;
   left: 0;
   position: absolute;
@@ -44,12 +45,12 @@
 
 .rock:after {
   content: "";
-  border-left: 6px solid #111;
-  border-right: 6px solid #111;
-  border-top: 6px solid tan;
+  border-left: 6px solid #0099FF;
+  border-right: 6px solid #0099FF;
+  border-top: 6px solid red;
   bottom: 0;
   height: 0;
   left: 0;
   position: absolute;
   width: 9px;
-}
+} */
