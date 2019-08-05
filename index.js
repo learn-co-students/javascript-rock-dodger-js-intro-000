@@ -26,25 +26,7 @@ var gameInterval = null
 * it to GAME and move it downwards.
 */
 
-function createRock(x) {
-  const rock = document.createElement('div')
-  rock.className = 'rock'
-  rock.style.left = `${x}px`
-  var top = 0;
-  GAME.appendChild(rock);
-  ROCKS.push(rock);
-  function step() {
-    rock.style.top = `${top += 2}px`
-    if (checkCollision(rock)) {
-      endGame();
-    } else {
-      if (top < 400) {
-        window.requestAnimationFrame(step);
-      }
-    }
-  }
-  window.requestAnimationFrame(step);
-}
+
 
 function checkCollision(rock) {
   const top = positionToInteger(rock.style.top)
@@ -75,6 +57,27 @@ function checkCollision(rock) {
   }
 }
 
+
+function createRock(x) {
+  const rock = document.createElement('div')
+  rock.className = 'rock'
+  rock.style.left = `${x}px`
+  var top = 0;
+  GAME.appendChild(rock);
+  ROCKS.push(rock);
+  function step() {
+    rock.style.top = `${top += 2}px`
+    if (checkCollision(rock)) {
+      endGame();
+    } else {
+      if (top < 400) {
+        window.requestAnimationFrame(step);
+      }
+    }
+  }
+  window.requestAnimationFrame(step);
+  return rock;
+}
 /**
  * End the game by clearing `gameInterval`,
  * removing all ROCKS from the DOM,
@@ -83,8 +86,8 @@ function checkCollision(rock) {
  */
 function endGame() {
     for (i = 0; i < ROCKS.length; i++) {
-      let rock = ROCKS[i]
-      GAME.removeChild(rock);
+      let rock = ROCKS[i];
+      rock.remove();
     }
     clearInterval(gameInterval);
     window.removeEventListener('keydown', moveDodger);
@@ -99,9 +102,13 @@ function endGame() {
 function moveDodger(e) {
   if (e.which === 37) {
     moveDodgerLeft();
+    e.stopPropagation();
+    e.preventDefault();
   }
   if (e.which === 39) {
     moveDodgerRight();
+    e.stopPropagation();
+    e.preventDefault();
   }
 }
 
