@@ -17,6 +17,8 @@ var gameInterval = null
  * but all of your work should happen below.
  */
 
+
+
 function checkCollision(rock) {
   // implement me!
   // use the comments below to guide you!
@@ -29,14 +31,21 @@ function checkCollision(rock) {
     const dodgerLeftEdge = positionToInteger(DODGER.style.left)
 
     // FIXME: The DODGER is 40 pixels wide -- how do we get the right edge?
-    const dodgerRightEdge = 0;
+    const dodgerRightEdge = dodgerLeftEdge + 40;
 
     const rockLeftEdge = positionToInteger(rock.style.left)
 
     // FIXME: The rock is 20 pixel's wide -- how do we get the right edge?
-    const rockRightEdge = 0;
+    const rockRightEdge = rockLeftEdge + 20;
 
-    if (false /**
+    if (rockLeftEdge < dodgerLeftEdge && rockRightEdge > dodgerLeftEdge) {
+      return true
+    } else if (rockLeftEdge > dodgerLeftEdge && rockRightEdge < dodgerLeftEdge) {
+      return true
+    } else if (rockLeftEdge < dodgerRightEdge && rockRightEdge > dodgerRightEdge) {
+      return true
+    } else
+/*
                * Think about it -- what's happening here?
                * There's been a collision if one of three things is true:
                * 1. The rock's left edge is < the DODGER's left edge,
@@ -45,8 +54,8 @@ function checkCollision(rock) {
                *    and the rock's right edge is < the DODGER's right edge;
                * 3. The rock's left edge is < the DODGER's right edge,
                *    and the rock's right edge is > the DODGER's right edge
-               */) {
-      return true
+               */ {
+      return false
     }
   }
 }
@@ -66,13 +75,14 @@ function createRock(x) {
    * Now that we have a rock, we'll need to append
    * it to GAME and move it downwards.
    */
-
+   GAME.append(rock)
 
   /**
    * This function moves the rock. (2 pixels at a time
    * seems like a good pace.)
    */
   function moveRock() {
+
     // implement me!
     // (use the comments below to guide you!)
     /**
@@ -101,6 +111,7 @@ function createRock(x) {
   return rock
 }
 
+createRock(2)
 /**
  * End the game by clearing `gameInterval`,
  * removing all ROCKS from the DOM,
