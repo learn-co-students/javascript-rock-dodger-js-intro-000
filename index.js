@@ -126,22 +126,34 @@ function createRock(x) {
  * and removing the `moveDodger` event listener.
  * Finally, alert "YOU LOSE!" to the player.
  */
+
 function endGame() {
-ROCKS.length = 0
-GAME.removeEventlistner(,moveDodger)
-alert('YOU LOSE!')
+
+  clearInterval(gameInterval)
+  for (let i = 0; i < ROCKS.length; i++) {
+    ROCKS[i].remove()
+  }
+  document.removeEventListener("keydown", moveDodger);
+
+
+  return alert('YOU LOSE!')
 }
 
 function moveDodger(e) {
   // implement me!
-  document.addEventListener('keydown', function(e) {
   if (e.which === LEFT_ARROW) {
-    moveDodgerLeft()
+       e.stopPropagation()
+       e.preventDefault();
+
+    moveDodgerLeft(e);
   }
   else if (e.which === RIGHT_ARROW) {
-    moveDodgerRight()
+    e.stopPropagation()
+    e.preventDefault();
+
+    moveDodgerRight(e);
   }
-})
+
   /**
    * This function should call `moveDodgerLeft()`
    * if the left arrow is pressed and `moveDodgerRight()`
@@ -167,9 +179,9 @@ function moveDodgerLeft() {
 
 function moveDodgerRight() {
   // implement me!
-  var right = positionToInteger(DODGER.style.right)
-  if (right > 0){
-    DODGER.style.right = `${right - 4}px`
+  var left = positionToInteger(DODGER.style.left)
+  if (left < 360){
+    DODGER.style.left = `${left + 4}px`
     window.requestAnimationFrame(moveDodgerRight)
 
   }
