@@ -86,7 +86,7 @@ function createRock(x) {
 
     // implement me!
     // (use the comments below to guide you!)
-    if (checkCollision(rock)){
+    if (checkCollision(x)){
       return endGame()
     }
     /**
@@ -128,12 +128,12 @@ function createRock(x) {
  */
 
 function endGame() {
-
+  console.log("Game over")
   clearInterval(gameInterval)
   for (let i = 0; i < ROCKS.length; i++) {
     ROCKS[i].remove()
   }
-  document.removeEventListener("keydown", moveDodger);
+  window.removeEventListener("keydown", moveDodger);
 
 
   return alert('YOU LOSE!')
