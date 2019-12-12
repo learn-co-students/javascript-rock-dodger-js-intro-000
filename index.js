@@ -20,10 +20,15 @@ var gameInterval = null
 function checkCollision(rock) {
   // implement me!
   // use the comments below to guide you!
-  const top = positionToInteger(rock.style.top)
-
   // rocks are 20px high
   // DODGER is 20px high
+
+  const top = positionToInteger(rock.style.top)
+  rock.style.height = '20px'
+  DODGER.style.height = '20px'
+
+
+
   // GAME_HEIGHT - 20 - 20 = 360px;
   if (top > 360) {
     const dodgerLeftEdge = positionToInteger(DODGER.style.left)
@@ -108,6 +113,8 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
+
+  alert('YOU LOSE!')
 }
 
 function moveDodger(e) {
@@ -119,10 +126,28 @@ function moveDodger(e) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
+//   $(document).on('keydown', function(e) {
+   if (e.which == LEFT_ARROW){
+     moveDodgerLeft()
+   }
+  // });
+
+  // $(document).on('keydown', function(e) {
+   if (e.which == RIGHT_ARROW){
+     moveDodgerRight()
+   }
+  // });
 }
 
 function moveDodgerLeft() {
-  // implement me!
+
+  var leftNumbers = dodger.style.left.replace('px', '')
+  var left = parseInt(leftNumbers, 10)
+
+  if (left > 0) {
+    dodger.style.left = `${left - 4}px`
+    window.requestAnimationFrame(moveDodgerLeft())
+  }
   /**
    * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
@@ -130,11 +155,18 @@ function moveDodgerLeft() {
 }
 
 function moveDodgerRight() {
-  // implement me!
   /**
    * This function should move DODGER to the right
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+   var rightNumbers = dodger.style.right.replace('px', '')
+   var right = parseInt(rightNumbers, 10)
+
+   if (right > 0) {
+     dodger.style.right = `${right - 4}px`
+     window.requestAnimationFrame(moveDodgerRight())
+   }
+
 }
 
 /**
