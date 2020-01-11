@@ -1,327 +1,177 @@
-describe('Rock Dodger', () => {
-  afterEach(function() {
-    expect.restoreSpies()
-  })
+/**
+ * Don't change these constants!
+ */
+const DODGER = document.getElementById('dodger')
+const GAME = document.getElementById('game')
+const GAME_HEIGHT = 400
+const GAME_WIDTH = 400
+const LEFT_ARROW = 37 // use e.which!
+const RIGHT_ARROW = 39 // use e.which!
+const ROCKS = []
+const START = document.getElementById('start')
 
-  describe('checkCollision(rock)', () => {
+var gameInterval = null
+
+/**
+ * Be aware of what's above this line,
+ * but all of your work should happen below.
+ */
+
+function checkCollision(rock) {
+    // implement me!
+    // use the comments below to guide you!
+    const top = positionToInteger(rock.style.top)
+
+    // rocks are 20px high
+    // DODGER is 20px high
+    // GAME_HEIGHT - 20 - 20 = 360px;
+    if (top > 360) {
+        const dodgerLeftEdge = positionToInteger(DODGER.style.left)
+
+        // FIXME: The DODGER is 40 pixels wide -- how do we get the right edge?
+        const dodgerRightEdge = positionToInteger(DODGER.style.right);
+
+        const rockLeftEdge = positionToInteger(rock.style.left)
+
+        // FIXME: The rock is 20 pixel's wide -- how do we get the right edge?
+        const rockRightEdge = positionToInteger(rock.style.right);
+
+        if ( /**
+               * Think about it -- what's happening here?
+               * There's been a collision if one of three things is true:
+               * 1. The rock's left edge is < the DODGER's left edge,
+               *    and the rock's right edge is > the DODGER's left edge;
+               * 2. The rock's left edge is > the DODGER's left edge,
+               *    and the rock's right edge is < the DODGER's right edge;
+               * 3. The rock's left edge is < the DODGER's right edge,
+               *    and the rock's right edge is > the DODGER's right edge.
+               */
+            (rockLeftEdge < dodgerLeftEdge) && (rockRightEdge > dodgerLeftEdge) )
+            else if ((rockLeftEdge > dodgerLeftEdge) && (rockRightEdge < dodgerRightEdge) )
+            else if ((rockLeftEdge < dodgerRightEdge) && (rockRightEdge > dodgerRightEdge) ) {
+            return true;
+        }
+        else {
+            return false;
+
+        }
+    }
+}
+
+function createRock(x) {
+    const rock = document.createElement('div')
+
+    rock.className = 'rock'
+    rock.style.left = `${x}px`
+
+    // Hmmm, why would we have used `var` here?
+    var top = 0
+
+    rock.style.top = top
+
     /**
-     * DODGER starts out at left = 180px
+     * Now that we have a rock, we'll need to append
+     * it to GAME and move it downwards.
      */
-    describe('rock is <= 360px from the top of GAME', () => {
-      it('does not collide', () => {
-        let rock = document.createElement('div')
-        rock.className = 'rock'
-        rock.style.top = '2px'
-        rock.style.left = '0px'
 
-        expect(checkCollision(rock)).toNotBe(true)
 
-        rock = null
-      })
-    })
+    /**
+     * This function moves the rock. (2 pixels at a time
+     * seems like a good pace.)
+     */
+    function moveRock() {
+        // implement me!
+        // (use the comments below to guide you!)
+        /**
+         * If a rock collides with the DODGER,
+         * we should call endGame().
+         */
+        while (checkCollision(rock) === false) {
+            var downNumbers = dodger.style.bottom.replace('px', '')
+            var down = parseInt(downNumbers, 10)
+            dodger.style.down = `${down - 2}px`
 
-    describe('rock is > 360px from the top of GAME', () => {
-      let rock
+                endGame();
 
-      beforeEach(() => {
-        rock = document.createElement('div')
-        rock.className = 'rock'
-        rock.style.top = '362px'
-      })
-
-      afterEach(() => {
-        rock = null
-      })
-
-      it('does not collide if not within DODGER\'s bounds', () => {
-        rock.style.left = '0px'
-
-        expect(checkCollision(rock)).toNotBe(true)
-      })
-
-      it("collides if the rock's left edge is <= the DODGER's left edge and the rock's right edge is >= the DODGER's left edge", () => {
-        rock.style.left = '170px'
-
-        expect(checkCollision(rock)).toBe(true)
-      })
-
-      it("collides if the rock's left edge is >= the DODGER's left edge and the rock's right edge is <= the DODGER's right edge", () => {
-        rock.style.left = '180px'
-
-        expect(checkCollision(rock)).toBe(true)
-      })
-
-      it("collides if the rock's left edge is <= the DODGER's right edge and the rock's right edge is >= the DODGER's right edge", () => {
-        rock.style.left = '219px'
-
-        expect(checkCollision(rock)).toBe(true)
-      })
-    })
-  })
-
-  describe('createRock(x)', () => {
-    let rock, spy
-    beforeEach(() => {
-      // this slight hack lets us run the tests both
-      // in the browser and in jsdom
-      if (typeof window.requestAnimationFrame !== 'undefined') {
-        spy = expect.spyOn(window, 'requestAnimationFrame')
-      } else {
-        spy = window.requestAnimationFrame = expect.createSpy()
-      }
-
-      rock = createRock(2)
-    })
-
-    afterEach(() => {
-      rock = null
-      spy = null
-    })
-
-    it('creates a rock with a given `style.left` value', () => {
-      expect(rock.style.left).toEqual('2px')
-    })
-
-    it('calls window.requestAnimationFrame()', () => {
-      expect(spy).toHaveBeenCalled()
-    })
-
-    describe('moveRock()', () => {
-      it('checks for a collision', () => {
-        let called = false
-
-        const spy = expect.spyOn(window, 'checkCollision')
-
-        window.requestAnimationFrame = cb => {
-          if (!called) {
-            called = true
-            cb()
-          }
         }
-
-        createRock(4)
-
-        expect(spy).toHaveBeenCalled()
-      })
-
-      it('ends the game if there is a collision', () => {
-        const spy = expect.spyOn(window, 'endGame')
-        const stub = expect.spyOn(window, 'checkCollision').andReturn(true)
-
-        window.requestAnimationFrame = cb => {
-          cb()
-        }
-
-        createRock(182)
-
-        expect(spy).toHaveBeenCalled()
-
-        window.checkCollision.restore()
-      })
-
-//       it('removes the rock once it falls of the screen', done => {
-//         window.requestAnimationFrame = cb => {
-//           setInterval(cb, 0)
-//         }
-
-//         const rock = createRock(2)
-//         const spy = expect.spyOn(rock, 'remove')
-
-//         // Janky setTimeout to let the rock fall
-//         // off the screen
-//         setTimeout(() => {
-//           expect(spy).toHaveBeenCalled()
-//           done()
-//         }, 50)
-//       })
-    })
-  })
-
-  describe('endGame()', () => {
-    it('clears gameInterval', () => {
-      const spy = expect.spyOn(window, 'clearInterval')
-
-      endGame()
-
-      expect(spy).toHaveBeenCalled()
-    })
-
-    it('removes all of the rocks', () => {
-      // noop
-      window.requestAnimationFrame = () => {}
-
-      let spies = []
-
-      for (let i = 0; i < 4; i++) {
-        let rock = createRock(i)
-
-        spies.push(expect.spyOn(rock, 'remove'))
-      }
-
-      endGame()
-
-      for (let i = 0; i < 4; i++) {
-        expect(spies[i]).toHaveBeenCalled()
-      }
-    })
-
-  })
-
-  describe('moveDodger(e)', () => {
-    beforeEach(() => {
-      window.requestAnimationFrame = () => {}
-    })
-
-    describe('e.which !== LEFT_ARROW && e.which !== RIGHT_ARROW', () => {
-      it('does nothing', () => {
-        const e = {
-          preventDefault: expect.createSpy(),
-          stopPropagation: expect.createSpy(),
-          which: 1
-        }
-        const l = expect.spyOn(window, 'moveDodgerLeft')
-        const r = expect.spyOn(window, 'moveDodgerRight')
-
-        moveDodger(e)
-
-        expect(e.preventDefault).toNotHaveBeenCalled()
-        expect(e.stopPropagation).toNotHaveBeenCalled()
-        expect(l).toNotHaveBeenCalled()
-        expect(r).toNotHaveBeenCalled()
-
-        window.moveDodgerLeft.restore()
-        window.moveDodgerRight.restore()
-      })
-    })
-
-    describe('e.which === LEFT_ARROW', () => {
-      let e, spy
-
-      beforeEach(() => {
-        spy = expect.createSpy()
-        e = {
-          preventDefault: () => {},
-          stopPropagation: () => {},
-          which: 37
-        }
-      })
-
-      it('calls e.preventDefault()', () => {
-        e.preventDefault = spy
-
-        moveDodger(e)
-
-        expect(spy).toHaveBeenCalled()
-      })
-
-      it('calls e.stopPropagation()', () => {
-        e.stopPropagation = spy
-
-        moveDodger(e)
-
-        expect(spy).toHaveBeenCalled()
-      })
-
-      it('calls moveDodgerLeft()', () => {
-        const f = expect.spyOn(window, 'moveDodgerLeft')
-
-        moveDodger(e)
-
-        expect(f).toHaveBeenCalled()
-
-        window.moveDodgerLeft.restore()
-      })
-    })
-
-    describe('e.which === RIGHT_ARROW', () => {
-      let e, spy
-
-      beforeEach(() => {
-        spy = expect.createSpy()
-        e = {
-          preventDefault: () => {},
-          stopPropagation: () => {},
-          which: 39
-        }
-      })
-
-      it('calls e.preventDefault()', () => {
-        e.preventDefault = spy
-
-        moveDodger(e)
-
-        expect(spy).toHaveBeenCalled()
-      })
-
-      it('calls e.stopPropagation()', () => {
-        e.stopPropagation = spy
-
-        moveDodger(e)
-
-        expect(spy).toHaveBeenCalled()
-      })
-
-      it('calls moveDodgerRight()', () => {
-        const f = expect.spyOn(window, 'moveDodgerRight')
-
-        moveDodger(e)
-
-        expect(f).toHaveBeenCalled()
-
-        window.moveDodgerRight.restore()
-      })
-    })
-  })
-
-  describe('moveDodgerLeft()', () => {
-    beforeEach(() => {
-      dodger = document.getElementById('dodger')
-
-      window.requestAnimationFrame = cb => {
-        cb()
-      }
-    })
-
-    it('moves the DODGER to the left', () => {
-      const left = positionToInteger(dodger.style.left)
-
-      moveDodgerLeft()
-
-      expect(positionToInteger(dodger.style.left)).toBeLessThan(left)
-    })
-
-    it('does not move the DODGER left if the DODGER\'s left edge already touches the left edge of GAME', () => {
-      dodger.style.left = '0px'
-
-      moveDodgerLeft()
-
-      expect(dodger.style.left).toEqual('0px')
-    })
-  })
-
-  describe('moveDodgerRight', () => {
-    beforeEach(() => {
-      dodger = document.getElementById('dodger')
-
-      window.requestAnimationFrame = cb => {
-        cb()
-      }
-    })
-
-    it('moves the DODGER to the right', () => {
-      const left = positionToInteger(dodger.style.left)
-
-      moveDodgerRight()
-
-      expect(positionToInteger(dodger.style.left)).toBeGreaterThan(left)
-    })
-
-    it('does not move the DODGER left if the DODGER\'s right edge already touches the right edge of GAME', () => {
-      dodger.style.left = '360px'
-
-      moveDodgerRight()
-
-      expect(dodger.style.left).toEqual('360px')
-    })
-  })
-})
+        /**
+         * Otherwise, if the rock hasn't reached the bottom of
+         * the GAME, we want to move it again.
+         */
+
+        /**
+         * But if the rock *has* reached the bottom of the GAME,
+         * we should remove the rock from the DOM.
+         */
+    }
+
+    // We should kick off the animation of the rock around here.
+
+    // Add the rock to ROCKS so that we can remove all rocks
+    // when there's a collision.
+    ROCKS.push(rock)
+
+    // Finally, return the rock element you've created.
+    return rock
+}
+
+/**
+ * End the game by clearing `gameInterval`,
+ * removing all ROCKS from the DOM,
+ * and removing the `moveDodger` event listener.
+ * Finally, alert "YOU LOSE!" to the player.
+ */
+function endGame() {
+
+    if (checkCollision(rock) === true){
+        var gameInterval = null
+        alert("YOU LOSE!");
+    }
+
+
+}
+
+function moveDodger(e) {
+    // implement me!
+    /**
+     * This function should call `moveDodgerLeft()`
+     * if the left arrow is pressed and `moveDodgerRight()`
+     * if the right arrow is pressed. (Check the constants
+     * we've declared for you above.)
+     * And be sure to use the functions declared below!
+     */
+}
+
+function moveDodgerLeft() {
+    // implement me!
+    /**
+     * This function should move DODGER to the left
+     * (mabye 4 pixels?). Use window.requestAnimationFrame()!
+     */
+}
+
+function moveDodgerRight() {
+    // implement me!
+    /**
+     * This function should move DODGER to the right
+     * (mabye 4 pixels?). Use window.requestAnimationFrame()!
+     */
+}
+
+/**
+ * @param {string} p The position property
+ * @returns {number} The position as an integer (without 'px')
+ */
+function positionToInteger(p) {
+    return parseInt(p.split('px')[0]) || 0
+}
+
+function start() {
+    window.addEventListener('keydown', moveDodger)
+
+    START.style.display = 'none'
+
+    gameInterval = setInterval(function () {
+        createRock(Math.floor(Math.random() * (GAME_WIDTH - 20)))
+    }, 1000)
+}
