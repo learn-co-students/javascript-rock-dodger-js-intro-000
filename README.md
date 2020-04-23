@@ -1,4 +1,99 @@
-JavaScript Rock Dodger
+
+```1) Rock Dodger checkCollision(rock) rock is > 360px from the top of GAME collides if the rock's left edge is <= the DODGER's left edge and the rock's right edge is >= the DODGER's left edge:
+     Error: Expected undefined to be true
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toBe (node_modules/expect/lib/Expectation.js:66:28)
+      at Context.it (test/index-test.js:45:38)
+
+  2) Rock Dodger checkCollision(rock) rock is > 360px from the top of GAME collides if the rock's left edge is >= the DODGER's left edge and the rock's right edge is <= the DODGER's right edge:
+     Error: Expected undefined to be true
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toBe (node_modules/expect/lib/Expectation.js:66:28)
+      at Context.it (test/index-test.js:51:38)
+
+  3) Rock Dodger checkCollision(rock) rock is > 360px from the top of GAME collides if the rock's left edge is <= the DODGER's right edge and the rock's right edge is >= the DODGER's right edge:
+     Error: Expected undefined to be true
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toBe (node_modules/expect/lib/Expectation.js:66:28)
+      at Context.it (test/index-test.js:57:38)
+
+  4) Rock Dodger createRock(x) calls window.requestAnimationFrame():
+     Error: spy was not called
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toHaveBeenCalled (node_modules/expect/lib/Expectation.js:318:28)
+      at Context.it (test/index-test.js:86:19)
+
+  5) Rock Dodger createRock(x) moveRock() checks for a collision:
+     Error: spy was not called
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toHaveBeenCalled (node_modules/expect/lib/Expectation.js:318:28)
+      at Context.it (test/index-test.js:104:21)
+
+  6) Rock Dodger createRock(x) moveRock() ends the game if there is a collision:
+     Error: spy was not called
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toHaveBeenCalled (node_modules/expect/lib/Expectation.js:318:28)
+      at Context.it (test/index-test.js:117:21)
+
+  7) Rock Dodger endGame() clears gameInterval:
+     Error: spy was not called
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toHaveBeenCalled (node_modules/expect/lib/Expectation.js:318:28)
+      at Context.it (test/index-test.js:146:19)
+
+  8) Rock Dodger endGame() removes all of the rocks:
+     Error: spy was not called
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toHaveBeenCalled (node_modules/expect/lib/Expectation.js:318:28)
+      at Context.it (test/index-test.js:164:26)
+
+  9) Rock Dodger moveDodger(e) e.which === LEFT_ARROW calls e.preventDefault():
+     Error: spy was not called
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toHaveBeenCalled (node_modules/expect/lib/Expectation.js:318:28)
+      at Context.it (test/index-test.js:214:21)
+
+  10) Rock Dodger moveDodger(e) e.which === LEFT_ARROW calls e.stopPropagation():
+     Error: spy was not called
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toHaveBeenCalled (node_modules/expect/lib/Expectation.js:318:28)
+      at Context.it (test/index-test.js:222:21)
+
+  11) Rock Dodger moveDodger(e) e.which === LEFT_ARROW calls moveDodgerLeft():
+     Error: spy was not called
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toHaveBeenCalled (node_modules/expect/lib/Expectation.js:318:28)
+      at Context.it (test/index-test.js:230:19)
+
+  12) Rock Dodger moveDodger(e) e.which === RIGHT_ARROW calls e.preventDefault():
+     Error: spy was not called
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toHaveBeenCalled (node_modules/expect/lib/Expectation.js:318:28)
+      at Context.it (test/index-test.js:253:21)
+
+  13) Rock Dodger moveDodger(e) e.which === RIGHT_ARROW calls e.stopPropagation():
+     Error: spy was not called
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toHaveBeenCalled (node_modules/expect/lib/Expectation.js:318:28)
+      at Context.it (test/index-test.js:261:21)
+
+  14) Rock Dodger moveDodger(e) e.which === RIGHT_ARROW calls moveDodgerRight():
+     Error: spy was not called
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toHaveBeenCalled (node_modules/expect/lib/Expectation.js:318:28)
+      at Context.it (test/index-test.js:269:19)
+
+  15) Rock Dodger moveDodgerLeft() moves the DODGER to the left:
+     Error: Expected 180 to be less than 180
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toBeLessThan (node_modules/expect/lib/Expectation.js:156:28)
+      at Context.it (test/index-test.js:290:52)
+
+  16) Rock Dodger moveDodgerRight moves the DODGER to the right:
+     Error: Expected 180 to be greater than 180
+      at assert (node_modules/expect/lib/assert.js:29:9)
+      at Expectation.toBeGreaterThan (node_modules/expect/lib/Expectation.js:178:28)
+      at Context.it (test/index-test.js:316:52)JavaScript Rock Dodger
 ---
 
 ## Objectives
