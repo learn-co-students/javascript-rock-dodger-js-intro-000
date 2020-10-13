@@ -1,8 +1,8 @@
 #dodger {
-  background-color: white;
-  height: 20px;
+  background-color: gold;
+  height: 60px;
   position: absolute;
-  width: 40px;
+  width: 80px;
 }
 
 #game {
@@ -16,7 +16,7 @@
 }
 
 #start {
-  color: white;
+  color: red;
   font-size: 4rem;
   position: relative;
   text-decoration: none;
@@ -24,9 +24,9 @@
 }
 
 .rock {
-  width: 20px;
-  height: 20px;
-  background: tan;
+  width: 60px;
+  height: 80px;
+  background: blue;
   position: absolute;
 }
 
