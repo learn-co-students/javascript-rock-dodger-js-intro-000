@@ -84,7 +84,7 @@ function createRock(x) {
    * This function moves the rock. (2 pixels at a time
    * seems like a good pace.)
    */
-  function moveRock() {
+function moveRock() {
     // implement me!
     // (use the comments below to guide you!)
     /**
@@ -123,6 +123,7 @@ function createRock(x) {
   return rock
 }
 
+
 /**
  * End the game by clearing `gameInterval`,
  * removing all ROCKS from the DOM,
@@ -130,17 +131,30 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
+  clearInterval(gameInterval)
+  for(var i = 0; i < ROCKS.length; i++) {
+    ROCKS[i].remove();
+  }
+  document.removeEventListener("keypress", moveDodger)
+  alert("YOU LOSE!")
 }
 
 function moveDodger(e) {
   // implement me!
   /**
    * This function should call `moveDodgerLeft()`
-   * if the left arrow is pressed and `moveDodgerRight()`
-   * if the right arrow is pressed. (Check the constants
+   * if the left arrow (const LEFT_ARROW = 37 // use e.which!) is pressed and `moveDodgerRight()`
+   * if the right arrow (const RIGHT_ARROW = 39 // use e.which!) is pressed. (Check the constants
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
+   document.addEventListener('keydown', function(e) {
+     if (e.which === 37) {
+       moveDodgerLeft()
+     } else if (e.which === 39) {
+       moveDodgerRight()
+ }
+ })
 }
 
 function moveDodgerLeft() {
@@ -149,6 +163,7 @@ function moveDodgerLeft() {
    * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+
 }
 
 function moveDodgerRight() {
