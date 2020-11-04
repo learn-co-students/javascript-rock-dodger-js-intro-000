@@ -151,10 +151,17 @@ function moveDodger(e) {
    document.addEventListener('keydown', function(e) {
      if (e.which === 37) {
        moveDodgerLeft()
-     } else if (e.which === 39) {
-       moveDodgerRight()
- }
+     }
  })
+
+  document.addEventListener('keydown', function(e) {
+    if (e.which === 39) {
+      moveDodgerRight()
+    }
+  })
+
+ e.preventDefault()
+ e.stopPropagation()
 }
 
 function moveDodgerLeft() {
@@ -163,7 +170,12 @@ function moveDodgerLeft() {
    * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+   var leftNumbers = dodger.style.left.replace('px', '')
+ var left = parseInt(leftNumbers, 10)
 
+ if (left > 0) {
+   dodger.style.left = `${left - 4}px`
+ }
 }
 
 function moveDodgerRight() {
@@ -172,7 +184,14 @@ function moveDodgerRight() {
    * This function should move DODGER to the right
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
+   var rightNumbers = dodger.style.right.replace('px', '')
+ var right = parseInt(rightNumbers, 10)
+
+ if (right > 0) {
+   dodger.style.right = `${right - 4}px`
+ }
 }
+
 
 /**
  * @param {string} p The position property
