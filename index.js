@@ -11,6 +11,7 @@ const ROCKS = []
 const START = document.getElementById('start')
 const DODGER_VELOCITY = 1
 const ROCK_VELOCITY = 2
+var ROCK_COUNT = 0
 
 var gameInterval = null
 
@@ -63,30 +64,16 @@ function createRock(x) {
    * seems like a good pace.)
    */
   function moveRock() {
+    rock.style.top = `${top += ROCK_VELOCITY}px`;
 
-    /**
-     * If a rock collides with the DODGER,
-     * we should call endGame().
-     */
      if (checkCollision(rock)) {
        endGame();
      }
-
-     /**
-      * Otherwise, if the rock hasn't reached the bottom of
-      * the GAME, we want to move it again.
-      */
-     else if (top < 400) {
-       top = top + ROCK_VELOCITY;
-       rock.style.top = `${top}px`;
+     else if (top < GAME_HEIGHT) {
        window.requestAnimationFrame(moveRock)
      }
-
-     /**
-      * But if the rock *has* reached the bottom of the GAME,
-      * we should remove the rock from the DOM.
-      */
      else {
+       ROCK_COUNT++;
        rock.remove();
      }
   }
@@ -116,6 +103,9 @@ function endGame() {
 
   window.removeEventListener('keydown', moveDodger)
   alert('YOU LOSE!')
+
+  START.innerHTML = `${ROCK_COUNT} rocks avoided.<br> Play again?`
+  START.style.display = 'inline'
 }
 
 function moveDodger(e) {
