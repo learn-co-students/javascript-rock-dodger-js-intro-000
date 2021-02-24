@@ -127,7 +127,7 @@ function createRock(x) {
 function endGame() {
   var gameInterval = null;
   ROCKS.length = [];
-  document.getElementById("dodger").removeEventListener("keypress", moveDodger)
+  document.getElementById('dodger').removeEventListener("keypress", moveDodger)
   alert("YOU LOSE!");
 }
 
