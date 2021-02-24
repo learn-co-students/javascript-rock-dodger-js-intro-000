@@ -126,9 +126,11 @@ function createRock(x) {
  */
 function endGame() {
   clearInterval(gameInterval)
-  //ROCKS.pop();
-  for (var i = 0; i < ROCKS.length; i++) {
+  if (ROCKS) {
+   for (var i = 0; i < ROCKS.length; i++) {
                 ROCKS.shift(); 
+   }
+   return ROCKS
   }
   document.getElementById('dodger').removeEventListener("keypress", moveDodger)
   alert("YOU LOSE!");
@@ -136,7 +138,19 @@ function endGame() {
 
 function moveDodger(e) {
   // implement me!
-  
+  window.addEventListener('keyleft', function(e) {
+  if (e.which === 37) {
+    e.preventDefault();
+    moveDodgerLeft()
+  }
+ })
+  window.addEventListener('keyright', function(e) {
+  if (e.which === 39) {
+    e.preventDefault();
+    moveDodgerRight()
+  }
+ })
+
   /**
    * This function should call `moveDodgerLeft()`
    * if the left arrow is pressed and `moveDodgerRight()`
@@ -148,6 +162,7 @@ function moveDodger(e) {
 
 function moveDodgerLeft() {
   // implement me!
+  let left = positionToInteger(DODGER.style.left)
   if (left > 0) {
     dodger.style.left = `${left - 4}px`
     window.requestAnimationFrame(moveDodgerLeft)
@@ -160,6 +175,7 @@ function moveDodgerLeft() {
 
 function moveDodgerRight() {
   // implement me!
+  let right = positionToInteger(DODGER.style.right)
   if (right > 0) {
     dodger.style.right = `${left - 4}px`
     window.requestAnimationFrame(moveDodgerRight)
