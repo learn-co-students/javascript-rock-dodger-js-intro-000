@@ -70,8 +70,10 @@ function createRock(x) {
    * Now that we have a rock, we'll need to append
    * it to GAME and move it downwards.
    */
-
-
+   function step(rock) {
+     document.getElementById("game").append(rock)
+     top = `${top += 2}px`
+   }
   /**
    * This function moves the rock. (2 pixels at a time
    * seems like a good pace.)
@@ -83,6 +85,17 @@ function createRock(x) {
      * If a rock collides with the DODGER,
      * we should call endGame().
      */
+     if (checkCollision()) {
+
+      endGame();
+
+     } else if (top >= 360) {
+
+      moveRock();
+
+     } else if (top < 360) {
+      document.getElementById("game").remove(rock)
+     }
 
     /**
      * Otherwise, if the rock hasn't reached the bottom of
@@ -96,7 +109,7 @@ function createRock(x) {
   }
 
   // We should kick off the animation of the rock around here.
-
+  window.requestAnimationFrame(moveRock)
   // Add the rock to ROCKS so that we can remove all rocks
   // when there's a collision.
   ROCKS.push(rock)
