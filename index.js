@@ -125,14 +125,18 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
-  var gameInterval = null;
-  ROCKS.length = [];
+  clearInterval(gameInterval)
+  //ROCKS.pop();
+  for (var i = 0; i < ROCKS.length; i++) {
+                ROCKS.shift(); 
+  }
   document.getElementById('dodger').removeEventListener("keypress", moveDodger)
   alert("YOU LOSE!");
 }
 
 function moveDodger(e) {
   // implement me!
+  
   /**
    * This function should call `moveDodgerLeft()`
    * if the left arrow is pressed and `moveDodgerRight()`
@@ -144,6 +148,10 @@ function moveDodger(e) {
 
 function moveDodgerLeft() {
   // implement me!
+  if (left > 0) {
+    dodger.style.left = `${left - 4}px`
+    window.requestAnimationFrame(moveDodgerLeft)
+  }
   /**
    * This function should move DODGER to the left
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
@@ -152,7 +160,12 @@ function moveDodgerLeft() {
 
 function moveDodgerRight() {
   // implement me!
+  if (right > 0) {
+    dodger.style.right = `${left - 4}px`
+    window.requestAnimationFrame(moveDodgerRight)
+  }
   /**
+
    * This function should move DODGER to the right
    * (mabye 4 pixels?). Use window.requestAnimationFrame()!
    */
