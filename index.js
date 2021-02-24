@@ -25,10 +25,12 @@ function checkCollision(rock) {  //returns true or false value
   // rocks are 20px high
   // DODGER is 20px high
   // GAME_HEIGHT - 20 - 20 = 360px;
-
-  if (top > 360) {
+  var rightNumbers = dodger.style.right.replace('px', '')
+  var right = parseInt(rightNumbers, 10)
+  
+  if (top > 360) {  
     const dodgerLeftEdge = positionToInteger(DODGER.style.left)
-
+    dodger.style.right = `${right - 1}px`
     // FIXME: The DODGER is 40 pixels wide -- how do we get the right edge?
     const dodgerRightEdge = 0;
 
@@ -62,7 +64,6 @@ function createRock(x) {
   var top = 0
 
   rock.style.top = top
-
   /**
    * Now that we have a rock, we'll need to append
    * it to GAME and move it downwards.
@@ -109,6 +110,10 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
+  var gameInterval = null;
+  ROCKS.length = [];
+  document.getElementById("dodger").removeEventListener("keypress", moveDodger)
+  alert("YOU LOSE!");
 }
 
 function moveDodger(e) {
