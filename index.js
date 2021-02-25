@@ -126,27 +126,26 @@ function createRock(x) {
  */
 function endGame() {
   clearInterval(gameInterval)
-  if (ROCKS) {
-   for (var i = 0; i < ROCKS.length; i++) {
-                ROCKS.shift(); 
-   }
-   return ROCKS
-  }
-  document.getElementById('dodger').removeEventListener("keypress", moveDodger)
+
+  ROCKS.forEach(function(rock) {
+    rock.remove()
+  })
+  document.removeEventListener('keydown', moveDodger)
   alert("YOU LOSE!");
 }
 
 function moveDodger(e) {
   // implement me!
-  window.addEventListener('keyleft', function(e) {
-  if (e.which === 37) {
     e.preventDefault();
+    e.stopPropagation();
+
+  document.addEventListener('keydown', function(e) {
+  if (e.which === 37) {
     moveDodgerLeft()
   }
  })
-  window.addEventListener('keyright', function(e) {
+  document.addEventListener('keydown', function(e) {
   if (e.which === 39) {
-    e.preventDefault();
     moveDodgerRight()
   }
  })
@@ -158,6 +157,7 @@ function moveDodger(e) {
    * we've declared for you above.)
    * And be sure to use the functions declared below!
    */
+
 }
 
 function moveDodgerLeft() {
