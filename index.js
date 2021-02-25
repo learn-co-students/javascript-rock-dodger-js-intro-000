@@ -177,7 +177,7 @@ function moveDodgerRight() {
   // implement me!
   let right = positionToInteger(DODGER.style.right)
   if (right > 0) {
-    dodger.style.right = `${left - 4}px`
+    dodger.style.right = `${right - 4}px`
     window.requestAnimationFrame(moveDodgerRight)
   }
   /**
