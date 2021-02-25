@@ -134,21 +134,18 @@ function endGame() {
   alert("YOU LOSE!");
 }
 
-function moveDodger(e) {
+function moveDodger(e) {  //?
   // implement me!
+  if ([LEFT_ARROW, RIGHT_ARROW].indexOf(e.which) > -1) {
     e.preventDefault();
     e.stopPropagation();
-
-  document.addEventListener('keydown', function(e) {
-  if (e.which === 37) {
-    moveDodgerLeft()
   }
- })
-  document.addEventListener('keydown', function(e) {
-  if (e.which === 39) {
+
+  if (e.which === LEFT_ARROW) {
+    moveDodgerLeft()
+  } else if (e.which === RIGHT_ARROW) {
     moveDodgerRight()
   }
- })
 
   /**
    * This function should call `moveDodgerLeft()`
@@ -163,8 +160,9 @@ function moveDodger(e) {
 function moveDodgerLeft() {
   // implement me!
   let left = positionToInteger(DODGER.style.left)
+  
   if (left > 0) {
-    dodger.style.left = `${left - 4}px`
+    DODGER.style.left = `${left - 4}px`
     window.requestAnimationFrame(moveDodgerLeft)
   }
   /**
@@ -173,13 +171,14 @@ function moveDodgerLeft() {
    */
 }
 
-function moveDodgerRight() {
+function moveDodgerRight() {  //?
   // implement me!
-  let right = positionToInteger(DODGER.style.right)
-  if (right > 0) {
-    dodger.style.right = `${right - 4}px`
-    window.requestAnimationFrame(moveDodgerRight)
-  }
+  let left = positionToInteger(DODGER.style.left)
+  
+  if (left < 360) {
+      DODGER.style.left = `${left + 4}px`;
+      window.requestAnimationFrame(moveDodgerRight)
+    }
   /**
 
    * This function should move DODGER to the right
