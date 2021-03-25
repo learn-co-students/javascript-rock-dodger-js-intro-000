@@ -29,14 +29,16 @@ function checkCollision(rock) {
     const dodgerLeftEdge = positionToInteger(DODGER.style.left)
 
     // FIXME: The DODGER is 40 pixels wide -- how do we get the right edge?
-    const dodgerRightEdge = 0;
+    const dodgerRightEdge = dodgerLeftEdge+40;
 
     const rockLeftEdge = positionToInteger(rock.style.left)
 
     // FIXME: The rock is 20 pixel's wide -- how do we get the right edge?
-    const rockRightEdge = 0;
+    const rockRightEdge = rockLeftEdge+20;
 
-    if (false /**
+    if (rockLeftEdge < dodgerLeftEdge && rockRightEdge > dodgerLeftEdge ||
+        rockLeftEdge >= dodgerLeftEdge && rockRightEdge < dodgerRightEdge ||
+        rockLeftEdge < dodgerRightEdge && rockRightEdge > dodgerRightEdge ){/**
                * Think about it -- what's happening here?
                * There's been a collision if one of three things is true:
                * 1. The rock's left edge is < the DODGER's left edge,
@@ -45,8 +47,8 @@ function checkCollision(rock) {
                *    and the rock's right edge is < the DODGER's right edge;
                * 3. The rock's left edge is < the DODGER's right edge,
                *    and the rock's right edge is > the DODGER's right edge.
-               */) {
-      return true
+               */
+      return true;
     }
   }
 }
@@ -66,13 +68,24 @@ function createRock(x) {
    * Now that we have a rock, we'll need to append
    * it to GAME and move it downwards.
    */
-
+   GAME.appendChild(rock);
 
   /**
    * This function moves the rock. (2 pixels at a time
    * seems like a good pace.)
    */
   function moveRock() {
+    top = parseInt(rock.style.top.replace('px', ''));
+    rock.style.top = `${top += 2}px`;
+    if(checkCollision(rock)){
+      endGame();
+    }else if(top >= 362){
+      rock.remove();
+        //window.cancelAnimationFrame(moveRock)
+    }else if (top < 362) {
+       window.requestAnimationFrame(moveRock)
+    }
+
     // implement me!
     // (use the comments below to guide you!)
     /**
@@ -89,8 +102,8 @@ function createRock(x) {
      * But if the rock *has* reached the bottom of the GAME,
      * we should remove the rock from the DOM.
      */
-  }
-
+   }
+   moveRock();
   // We should kick off the animation of the rock around here.
 
   // Add the rock to ROCKS so that we can remove all rocks
@@ -108,33 +121,51 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
+  clearInterval(gameInterval);
+  rocks = document.getElementsByClassName('rock');
+  console.log(rocks.length);
+  for(let i = rocks.length-1; i >= 0; i--){
+      console.log(i);
+      rocks[i].remove();
+  }
+  window.removeEventListener('keydown', moveDodger);
+  alert("YOU LOSE!");
 }
 
 function moveDodger(e) {
-  // implement me!
-  /**
-   * This function should call `moveDodgerLeft()`
-   * if the left arrow is pressed and `moveDodgerRight()`
-   * if the right arrow is pressed. (Check the constants
-   * we've declared for you above.)
-   * And be sure to use the functions declared below!
-   */
+   if(e.which == LEFT_ARROW){
+      moveDodgerLeft();
+      e.preventDefault();
+      e.stopPropagation();
+   }else if(e.which == RIGHT_ARROW){
+     moveDodgerRight();
+     e.preventDefault();
+     e.stopPropagation();
+   }
 }
 
 function moveDodgerLeft() {
-  // implement me!
-  /**
-   * This function should move DODGER to the left
-   * (mabye 4 pixels?). Use window.requestAnimationFrame()!
-   */
+  function stepLeft() {
+    var left = parseInt(DODGER.style.left.replace('px', ''));
+    if(left == 0){return;}
+    DODGER.style.left = `${left -= 4}px`;
+    if (left > 0) {
+      window.requestAnimationFrame(stepLeft)
+    }
+  }
+  window.requestAnimationFrame(stepLeft)
 }
 
 function moveDodgerRight() {
-  // implement me!
-  /**
-   * This function should move DODGER to the right
-   * (mabye 4 pixels?). Use window.requestAnimationFrame()!
-   */
+   function stepRight() {
+     var right = parseInt(DODGER.style.left.replace('px', ''));
+     if(right == 360){return;}
+     DODGER.style.left = `${right += 4}px`;
+     if (right > 0 && right < 360) {
+       window.requestAnimationFrame(stepRight)
+     }
+   }
+   window.requestAnimationFrame(stepRight)
 }
 
 /**
