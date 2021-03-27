@@ -26,17 +26,23 @@ function checkCollision(rock) {
   // DODGER is 20px high
   // GAME_HEIGHT - 20 - 20 = 360px;
   if (top > 360) {
-    const dodgerLeftEdge = positionToInteger(DODGER.style.left)
+    const dodgerLeftEdge = positionToInteger(DODGER.style.left) 
 
     // FIXME: The DODGER is 40 pixels wide -- how do we get the right edge?
-    const dodgerRightEdge = 0;
+    const dodgerRightEdge = dodgerLeftEdge + 40;
 
-    const rockLeftEdge = positionToInteger(rock.style.left)
+    const rockLeftEdge = positionToInteger(rock.style.left);
 
     // FIXME: The rock is 20 pixel's wide -- how do we get the right edge?
-    const rockRightEdge = 0;
+    const rockRightEdge = rockLeftEdge + 20;
 
-    if (false /**
+    if ((rockLeftEdge <= dodgerLeftEdge && rockRightEdge >= dodgerLeftEdge) ||
+        (rockLeftEdge >= dodgerLeftEdge && rockRightEdge <= dodgerRightEdge) ||
+        (rockLeftEdge <= dodgerRightEdge && rockRightEdge >= dodgerRightEdge)) {
+      
+      
+    
+               /**
                * Think about it -- what's happening here?
                * There's been a collision if one of three things is true:
                * 1. The rock's left edge is < the DODGER's left edge,
@@ -45,7 +51,7 @@ function checkCollision(rock) {
                *    and the rock's right edge is < the DODGER's right edge;
                * 3. The rock's left edge is < the DODGER's right edge,
                *    and the rock's right edge is > the DODGER's right edge.
-               */) {
+               */
       return true
     }
   }
@@ -67,12 +73,23 @@ function createRock(x) {
    * it to GAME and move it downwards.
    */
 
+   Game.appendChild(rock);
 
   /**
    * This function moves the rock. (2 pixels at a time
    * seems like a good pace.)
    */
   function moveRock() {
+    
+    rock.style.top = `${top += 2}px`;
+    if (checkCollision(rock)) {
+      return endGame();
+    } else if (top_1 < GAME_HEIGHT) {
+      window.requestAnimationFrame(moveRock);
+    } else {
+      rock.remove();
+    }  
+   }
     // implement me!
     // (use the comments below to guide you!)
     /**
@@ -92,13 +109,13 @@ function createRock(x) {
   }
 
   // We should kick off the animation of the rock around here.
-
+  window.requestAnimationFrame(moveRock);
   // Add the rock to ROCKS so that we can remove all rocks
   // when there's a collision.
-  ROCKS.push(rock)
+  ROCKS.push(rock);
 
   // Finally, return the rock element you've created.
-  return rock
+  return rock;
 }
 
 /**
@@ -108,9 +125,26 @@ function createRock(x) {
  * Finally, alert "YOU LOSE!" to the player.
  */
 function endGame() {
+  clearInterval(gameInterval);
+  ROCKS.forEach(function(rock) {
+    rock.romove()
+    });
+  document.removeEventListener('keydown', moveDodger);
+  return alert ('YOU LOSE!');
 }
 
 function moveDodger(e) {
+  if (e.which === LEFT_ARROW) {
+    moveDodgerLeft();
+    e.preventDefault();
+    e.stopPropagation();
+    
+  } else if (e.which === RIGHT_ARROW) {
+    moveDodgerRight();
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  
   // implement me!
   /**
    * This function should call `moveDodgerLeft()`
@@ -122,6 +156,13 @@ function moveDodger(e) {
 }
 
 function moveDodgerLeft() {
+  var leftNumbers = DODGER.style.left.replace('px', '');
+  var left = parseInt(leftNumbers, 10);
+  
+  if (left > 0) {
+    DODGER.style.left = `${left - 4}px`;
+    window.requestAnimationFrame(moveDodgerLeft);
+  }
   // implement me!
   /**
    * This function should move DODGER to the left
@@ -130,6 +171,13 @@ function moveDodgerLeft() {
 }
 
 function moveDodgerRight() {
+  var leftNumbers = DODGER.style.left.replace('px', '');
+  var left = parseInt(leftNumbers, 10);
+  
+  if (left < 360) {
+    DODGER.style.left = `${left + 4}px`;
+    window.requestAnimationFrame(moveDodgerRight);
+  }
   // implement me!
   /**
    * This function should move DODGER to the right
@@ -141,6 +189,21 @@ function moveDodgerRight() {
  * @param {string} p The position property
  * @returns {number} The position as an integer (without 'px')
  */
+    var rightNumbers = dodger.style.left.replace('px', '')
+
+    var right = parseInt(rightNumbers, 10)
+
+    if (right > 0) {
+      dodger.style.left = `${right + 3}px`
+
+    var right = parseInt(righttNumbers, 10)
+
+    if (right > 0) {
+      dodger.style.left = `${left + 3}px`
+
+    }
+ }
+ 
 function positionToInteger(p) {
   return parseInt(p.split('px')[0]) || 0
 }
