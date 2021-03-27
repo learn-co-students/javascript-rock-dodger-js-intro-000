@@ -1,6 +1,5 @@
-/**
- * Don't change these constants!
- */
+
+
 const DODGER = document.getElementById('dodger')
 const GAME = document.getElementById('game')
 const GAME_HEIGHT = 400
